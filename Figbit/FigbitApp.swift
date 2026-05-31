@@ -1,17 +1,15 @@
-//
-//  FigbitApp.swift
-//  Figbit
-//
-//  Created by Reiya Mitsuzono on 2026/05/31.
-//
-
 import SwiftUI
 
 @main
 struct FigbitApp: App {
+    @State private var authManager = AuthManager()
+    @State private var shortcutSync = ShortcutSyncManager()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(authManager)
+                .environment(shortcutSync)
         }
     }
 }

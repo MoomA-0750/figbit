@@ -1,24 +1,31 @@
-//
-//  ContentView.swift
-//  Figbit
-//
-//  Created by Reiya Mitsuzono on 2026/05/31.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+    @Environment(AuthManager.self) private var authManager
+    @Environment(ShortcutSyncManager.self) private var shortcutSync
+    @State private var tabManager = TabManager()
+    @State private var showSettings = false
 
-#Preview {
-    ContentView()
+    var body: some View {
+        ZStack {
+            VStack(spacing: 0) {
+                TabBarView(tabManager: tabManager, showSettings: $showSettings)
+                    .frame(height: 48)
+                    .background(Color(uiColor: .secondarySystemBackground))
+                    .overlay(alignment: .bottom) { Divider() }
+
+                FigmaCanvasView(tabManager: tabManager)
+                    .ignoresSafeArea(edges: .bottom)
+            }
+
+            ShortcutPanelView()
+                .environment(tabManager)
+        }
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+                .environment(authManager)
+                .environment(shortcutSync)
+                .environment(tabManager)
+        }
+    }
 }
