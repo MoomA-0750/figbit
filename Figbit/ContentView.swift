@@ -13,15 +13,18 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Editor — only instantiated when native home is not shown, to avoid
-                // loading figma.com/files in the background while home is visible.
-                if !shouldShowNativeHome {
-                    editorContent
-                }
+                // editorContent は常に View ツリーに残す。
+                // shouldShowNativeHome が true になった瞬間に editorContent を外すと
+                // FigmaCanvasView の Coordinator が解放され webView.navigationDelegate が nil になる。
+                // その状態でログイン後リダイレクト（figma.com/files）が来ても didFinish が
+                // 呼ばれず、authManager.updateLoginState が更新されなくなる。
+                editorContent
 
                 ShortcutPanelView()
                     .environment(tabManager)
 
+                // ネイティブホームは editorContent の上に重ねる真のオーバーレイ。
+                // Color(.systemBackground) の不透明背景で下層を完全に隠す。
                 if shouldShowNativeHome {
                     NativeHomeView(onOpen: openInActiveTab)
                         .environment(figmaAPI)
