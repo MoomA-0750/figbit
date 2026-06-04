@@ -4,6 +4,7 @@ import UIKit
 
 struct FigmaCanvasView: UIViewRepresentable {
     var tabManager: TabManager
+    var onPageLoad: ((URL, String) -> Void)? = nil
     @Environment(AuthManager.self) private var authManager
     @Environment(ShortcutSyncManager.self) private var shortcutSync
 
@@ -35,6 +36,8 @@ struct FigmaCanvasView: UIViewRepresentable {
         }
 
         webView.pencilMode = shortcutSync.pencilMode
+        // ページ読み込み完了通知のクロージャを毎回更新する（クロージャが参照するobjectが変わり得るため）
+        context.coordinator.onPageLoad = onPageLoad
     }
 
     func makeCoordinator() -> Coordinator {
@@ -45,6 +48,7 @@ struct FigmaCanvasView: UIViewRepresentable {
 
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
         let authManager: AuthManager
+        var onPageLoad: ((URL, String) -> Void)?
         weak var mainWebView: WKWebView?
         weak var popupVC: UIViewController?
 
@@ -56,6 +60,9 @@ struct FigmaCanvasView: UIViewRepresentable {
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             guard webView === mainWebView else { return }
             authManager.updateLoginState(from: webView.url)
+            if let url = webView.url, let title = webView.title {
+                onPageLoad?(url, title)
+            }
             // ログイン直後（userHandleが未取得の場合）にユーザー情報を取得する
             if authManager.isLoggedIn == true && authManager.userHandle == nil {
                 fetchUserHandle(from: webView)

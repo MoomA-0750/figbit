@@ -4,10 +4,13 @@ struct SettingsView: View {
     @Environment(ShortcutSyncManager.self) private var shortcutSync
     @Environment(AuthManager.self) private var authManager
     @Environment(TabManager.self) private var tabManager
+    @Environment(FigmaAPIManager.self) private var figmaAPI
     @Environment(\.dismiss) private var dismiss
 
     @State private var showAddShortcut = false
     @State private var showResetConfirm = false
+    @State private var showAddTeamID = false
+    @State private var newTeamID = ""
 
     var body: some View {
         NavigationStack {
@@ -15,6 +18,7 @@ struct SettingsView: View {
                 pencilModeSection
                 shortcutSection
                 tabSection
+                apiSection
                 accountSection
             }
             .navigationTitle("設定")
@@ -140,6 +144,47 @@ struct SettingsView: View {
             Text("タブ")
         } footer: {
             Text("アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。")
+        }
+    }
+
+    // MARK: - Figma API Section
+
+    private var apiSection: some View {
+        Section {
+            SecureField("Personal Access Token", text: Binding(
+                get: { figmaAPI.personalAccessToken },
+                set: { figmaAPI.personalAccessToken = $0 }
+            ))
+            .autocorrectionDisabled()
+            .textInputAutocapitalization(.never)
+            .font(.system(.body, design: .monospaced))
+
+            ForEach(figmaAPI.teamIDs, id: \.self) { teamID in
+                Label(teamID, systemImage: "person.3")
+                    .font(.system(.body, design: .monospaced))
+            }
+            .onDelete { figmaAPI.teamIDs.remove(atOffsets: $0) }
+
+            Button { showAddTeamID = true } label: {
+                Label("チームIDを追加", systemImage: "plus")
+            }
+        } header: {
+            Text("Figma API")
+        } footer: {
+            Text("figma.com → Settings → Security → Personal access tokens でトークンを作成できます。チームIDはfigma.com/files/team/{チームID} のURLで確認できます。")
+        }
+        .alert("チームIDを追加", isPresented: $showAddTeamID) {
+            TextField("チームID（数値）", text: $newTeamID)
+                .keyboardType(.numberPad)
+                .autocorrectionDisabled()
+            Button("追加") {
+                let id = newTeamID.trimmingCharacters(in: .whitespaces)
+                if !id.isEmpty && !figmaAPI.teamIDs.contains(id) {
+                    figmaAPI.teamIDs.append(id)
+                }
+                newTeamID = ""
+            }
+            Button("キャンセル", role: .cancel) { newTeamID = "" }
         }
     }
 

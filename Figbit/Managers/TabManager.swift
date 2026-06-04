@@ -40,17 +40,18 @@ class TabManager {
         return tabs[activeIndex]
     }
 
-    func addTab(url: URL = URL(string: "https://www.figma.com/files")!) {
+    // url を省略するとページを読み込まず、ネイティブホーム画面が表示される。
+    func addTab(url: URL? = nil) {
         let tab = FigmaTab(processPool: processPool, dataStore: dataStore)
         tabs.append(tab)
         activeIndex = tabs.count - 1
-        tab.load(url: url)
+        if let url { tab.load(url: url) }
     }
 
     func closeTab(at index: Int) {
-        guard tabs.count > 1 else { return }
         tabs.remove(at: index)
-        activeIndex = max(0, min(activeIndex, tabs.count - 1))
+        // tabs が空になってもネイティブホームが表示されるので guard は不要。
+        activeIndex = max(0, min(activeIndex, max(tabs.count - 1, 0)))
     }
 
     func selectTab(at index: Int) {
@@ -94,7 +95,8 @@ class TabManager {
             tabs.append(tab)
             tab.load(url: url)
         }
-        guard !tabs.isEmpty else { addTab(); return }
+        // タブがなければネイティブホームを表示するためここでは何も作らない。
+        guard !tabs.isEmpty else { return }
         activeIndex = min(max(newActiveIndex, 0), tabs.count - 1)
     }
 
