@@ -8,25 +8,21 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var tabManager = TabManager()
     @State private var showSettings = false
+    @State private var showingHome = true   // ホームボタンで明示的に制御
     @State private var windowWidth: CGFloat = 0
 
     var body: some View {
         NavigationStack {
             ZStack {
-                // editorContent は常に View ツリーに残す。
-                // shouldShowNativeHome が true になった瞬間に editorContent を外すと
-                // FigmaCanvasView の Coordinator が解放され webView.navigationDelegate が nil になる。
-                // その状態でログイン後リダイレクト（figma.com/files）が来ても didFinish が
-                // 呼ばれず、authManager.updateLoginState が更新されなくなる。
+                // editorContent は常に View ツリーに置く（Coordinator 生存のため）。
+                // ↑ 詳細は git log を参照。
                 editorContent
 
                 ShortcutPanelView()
                     .environment(tabManager)
 
-                // ネイティブホームは editorContent の上に重ねる真のオーバーレイ。
-                // Color(.systemBackground) の不透明背景で下層を完全に隠す。
                 if shouldShowNativeHome {
-                    NativeHomeView(onOpen: openInActiveTab)
+                    NativeHomeView(onOpen: openFromHome)
                         .environment(figmaAPI)
                         .transition(.opacity)
                         .zIndex(1)
@@ -41,7 +37,12 @@ struct ContentView: View {
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                TabToolbar(tabManager: tabManager, showSettings: $showSettings, windowWidth: windowWidth)
+                TabToolbar(
+                    tabManager: tabManager,
+                    showSettings: $showSettings,
+                    showingHome: $showingHome,
+                    windowWidth: windowWidth
+                )
             }
         }
         .animation(.easeInOut(duration: 0.18), value: shouldShowNativeHome)
@@ -52,6 +53,10 @@ struct ContentView: View {
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { tabManager.saveSession() }
         }
+        // タブが全部閉じられたらホームに戻す
+        .onChange(of: tabManager.tabs.count) { _, count in
+            if count == 0 { showingHome = true }
+        }
         .sheet(isPresented: $showSettings) {
             SettingsView()
                 .environment(authManager)
@@ -59,6 +64,14 @@ struct ContentView: View {
                 .environment(tabManager)
                 .environment(figmaAPI)
         }
+    }
+
+    // MARK: - Native Home Condition
+
+    // URL チェックをやめて showingHome を唯一の真実の源にする。
+    // タブが 0 枚のときは問答無用でホームを表示する。
+    var shouldShowNativeHome: Bool {
+        showingHome || tabManager.tabs.isEmpty
     }
 
     // MARK: - Editor Content
@@ -75,28 +88,10 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Native Home Condition
-
-    private var shouldShowNativeHome: Bool {
-        if tabManager.tabs.isEmpty { return true }
-        guard let tab = tabManager.activeTab else { return true }
-        guard let url = tab.currentURL else { return true }
-        return isHomePage(url)
-    }
-
-    private func isHomePage(_ url: URL) -> Bool {
-        guard url.host?.hasSuffix("figma.com") == true else { return false }
-        let path = url.path
-        return path.isEmpty || path == "/" || path.hasPrefix("/files") || path.hasPrefix("/home")
-    }
-
-    // Load a URL in the active tab, or create a new tab if none exist.
-    private func openInActiveTab(url: URL) {
-        if tabManager.tabs.isEmpty {
-            tabManager.addTab(url: url)
-        } else {
-            tabManager.activeTab?.load(url: url)
-        }
+    // ホーム画面からファイルを開く。常に新しいタブを作り、ホームを閉じる。
+    func openFromHome(url: URL) {
+        tabManager.addTab(url: url)
+        showingHome = false
     }
 
     // MARK: - Login Banner
@@ -114,7 +109,9 @@ struct ContentView: View {
             }
             Spacer()
             Button("ログイン") {
+                if tabManager.tabs.isEmpty { tabManager.addTab() }
                 authManager.presentLogin(navigating: tabManager.activeTab)
+                showingHome = false
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.small)

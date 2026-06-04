@@ -33,12 +33,7 @@ struct NativeHomeView: View {
             HomeSectionHeader(title: "最近使ったファイル", symbol: "clock")
 
             if api.recentFiles.isEmpty {
-                ContentUnavailableView(
-                    "最近開いたファイルがありません",
-                    systemImage: "clock",
-                    description: Text("Figmaのファイルを開くと、ここに表示されます。")
-                )
-                .padding(.vertical, 8)
+                emptyRecents
             } else {
                 LazyVGrid(
                     columns: [GridItem(.adaptive(minimum: 175, maximum: 230), spacing: 14)],
@@ -50,6 +45,25 @@ struct NativeHomeView: View {
                 }
             }
         }
+    }
+
+    private var emptyRecents: some View {
+        VStack(spacing: 20) {
+            ContentUnavailableView(
+                "最近開いたファイルがありません",
+                systemImage: "clock",
+                description: Text("ファイルをタップして開くと、ここに表示されます。")
+            )
+            // ファイル履歴が空でも figma.com のWeb画面に飛べる導線を用意する
+            Button {
+                onOpen(URL(string: "https://www.figma.com")!)
+            } label: {
+                Label("figma.comをWebで開く", systemImage: "globe")
+            }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+        }
+        .padding(.vertical, 8)
     }
 
     // MARK: - Project Browser

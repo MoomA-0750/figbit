@@ -1,19 +1,37 @@
 import SwiftUI
 
-// iPadのタイトル帯（信号機の列）に、システムのツールバーとしてタブと操作ボタンを配置する。
-// OSが信号機と上下位置を自動で揃えるため、手動のオフセットやsafeArea潜り込ませは不要。
-// 右端の＋/歯車は純正のツールバーボタンなので、iOS 26では自動でLiquid Glass＋純正の押下挙動になる。
+// [(ホーム)          (タブストリップ)          (+) (歯車)]
+// ホームボタンはタブが増える前から常に存在し、ホーム画面を表示する。
+// タブストリップはファイルタブの一覧。タブが0枚のときは非表示。
 struct TabToolbar: ToolbarContent {
     var tabManager: TabManager
     @Binding var showSettings: Bool
+    @Binding var showingHome: Bool
     var windowWidth: CGFloat
 
     var body: some ToolbarContent {
-        ToolbarItem(placement: .principal) {
-            TabStrip(tabManager: tabManager, windowWidth: windowWidth)
+        // ホームボタン（一番左）
+        ToolbarItem(placement: .topBarLeading) {
+            Button { showingHome = true } label: {
+                Image(systemName: showingHome ? "house.fill" : "house")
+            }
         }
+
+        // タブストリップ（中央）
+        ToolbarItem(placement: .principal) {
+            if !tabManager.tabs.isEmpty {
+                TabStrip(
+                    tabManager: tabManager,
+                    windowWidth: windowWidth,
+                    closeHome: { showingHome = false }
+                )
+            }
+        }
+
+        // ＋と歯車（右）
         ToolbarItemGroup(placement: .topBarTrailing) {
-            Button { tabManager.addTab() } label: {
+            // ＋はホームを開いてファイルを選ばせる（新規タブはファイル確定後に作られる）
+            Button { showingHome = true } label: {
                 Image(systemName: "plus")
             }
             Button { showSettings = true } label: {
@@ -25,7 +43,6 @@ struct TabToolbar: ToolbarContent {
 
 // MARK: - Tab Strip (Safari風のグループ背景)
 
-// ウィンドウ幅を親から伝えるための PreferenceKey。
 struct WindowWidthKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
@@ -33,7 +50,6 @@ struct WindowWidthKey: PreferenceKey {
     }
 }
 
-// タブ列の実寸幅を測るための PreferenceKey。
 private struct ContentWidthKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
@@ -41,23 +57,15 @@ private struct ContentWidthKey: PreferenceKey {
     }
 }
 
-// タブ列を1つのガラス容器でまとめ、Safariのようなグルーピング背景を出す。
-// iOS 26ではGlassEffectContainerで容器ガラスと各タブのガラスをAppleの仕組みで馴染ませて融合。
-//
-// 幅の挙動（少数タブ→中身に合わせて縮み中央、 大量タブ→利用可能幅で頭打ち＋横スクロール）は
-// 純正だけでは両立できないため、最小限の自前計測で実現する：
-//   1. 0サイズの不可視プローブで「中身の実寸幅」を測る（レイアウト幅には影響しない）
-//   2. 表示側のピル容器を min(実寸, 利用可能幅) に固定し、中身だけをスクロールさせる
-//   3. principal スロットが中身サイズで中央配置する
-// principal スロットは GeometryReader に実幅を与えないため、利用可能幅は windowWidth
-// （ContentViewで計測）から左右のコントロール分を引いて求める。
 private struct TabStrip: View {
     var tabManager: TabManager
     var windowWidth: CGFloat
+    // タブチップがタップされたときにホームを閉じるコールバック
+    var closeHome: () -> Void = {}
     @State private var contentWidth: CGFloat = 0
 
-    // 左の信号機＋右の＋/歯車＋余白のおおよその予約幅。
-    private let reservedWidth: CGFloat = 220
+    // 左のホームボタン＋右の＋/歯車＋余白のおおよその予約幅
+    private let reservedWidth: CGFloat = 280
 
     var body: some View {
         let cap = windowWidth > reservedWidth ? windowWidth - reservedWidth : .greatestFiniteMagnitude
@@ -69,11 +77,10 @@ private struct TabStrip: View {
         .frame(width: stripWidth)
         .clipShape(Capsule())
         .modifier(TabGroupBackground())
-        .background(measuringProbe) // 0サイズ。レイアウト幅に影響せず実寸だけ測る。
+        .background(measuringProbe)
         .onPreferenceChange(ContentWidthKey.self) { contentWidth = $0 }
     }
 
-    // 中身の実寸を測る不可視プローブ。fixedSizeで幅制約を受けず、frame(0)でレイアウトには寄与しない。
     private var measuringProbe: some View {
         tabRow
             .fixedSize(horizontal: true, vertical: false)
@@ -94,7 +101,10 @@ private struct TabStrip: View {
                 TabChip(
                     tab: tab,
                     isActive: index == tabManager.activeIndex,
-                    onSelect: { tabManager.selectTab(at: index) },
+                    onSelect: {
+                        tabManager.selectTab(at: index)
+                        closeHome()          // タブを選んだらホームを閉じる
+                    },
                     onClose: { tabManager.closeTab(at: index) }
                 )
             }
@@ -124,10 +134,7 @@ private struct TabGroupBackground: ViewModifier {
 // MARK: - Tab Chip
 
 private struct TabChip: View {
-    // ＋/歯車の純正ボタン（ガラスのカプセル）と縦幅を揃えるための高さ。
-    // 合計高さ = この値 + 上下パディング(5×2)。
     static let height: CGFloat = 33
-    // タイトル部の固定幅。これを固定することで全タブの横幅を均一にする。
     static let titleWidth: CGFloat = 120
 
     var tab: FigmaTab
@@ -172,7 +179,6 @@ private struct TabChip: View {
 
 // MARK: - Style Modifier
 
-// アクティブタブ: iOS 26はインタラクティブなガラス、それ以前はsystemBackground＋アクセント枠。
 private struct TabChipStyle: ViewModifier {
     let isActive: Bool
 
@@ -180,7 +186,6 @@ private struct TabChipStyle: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26, *) {
             if isActive {
-                // 無彩色で明るくtintし、暗い背景から白っぽく浮き上がらせる。
                 content.glassEffect(.regular.tint(Color.white.opacity(0.28)).interactive(), in: Capsule())
             } else {
                 content.clipShape(Capsule())
