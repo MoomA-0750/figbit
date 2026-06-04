@@ -42,7 +42,6 @@ class FigmaAPIManager {
     var hasCredentials: Bool { !clientID.isEmpty && !clientSecret.isEmpty }
 
     private static let redirectURI = "figbit://oauth/callback"
-    private static let scope       = "files:read"
 
     private enum Keys {
         static let clientID     = "figbit.oauth.clientID.v1"
@@ -81,10 +80,11 @@ class FigmaAPIManager {
         guard var comps = URLComponents(string: "https://www.figma.com/oauth") else {
             throw OAuthError.badURL
         }
+        // scope はURLに含めず、Figma Developerポータルで設定したアプリのスコープを使う。
+        // URLに含めると、アプリのスコープ設定と不一致のとき 400 "Invalid scopes for app" になる。
         comps.queryItems = [
             URLQueryItem(name: "client_id",     value: clientID),
             URLQueryItem(name: "redirect_uri",  value: Self.redirectURI),
-            URLQueryItem(name: "scope",         value: Self.scope),
             URLQueryItem(name: "state",         value: state),
             URLQueryItem(name: "response_type", value: "code"),
         ]

@@ -273,6 +273,9 @@ struct SettingsView: View {
                 Button {
                     dismiss()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        // タブが0枚のとき activeTab は nil になり presentLogin が早期リターンする。
+                        // ログインページを表示できるよう先にタブを作る。
+                        if tabManager.tabs.isEmpty { tabManager.addTab() }
                         authManager.presentLogin(navigating: tabManager.activeTab)
                     }
                 } label: {
