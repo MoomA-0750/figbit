@@ -150,18 +150,66 @@
         }
       }
     },
-    "ShortcutDataはiCloud経由で複数のiPad間に自動同期されます。" : {
+    "保存先" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shortcuts sync automatically across iPads via iCloud."
+            "value" : "Storage"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ショートカットはiCloud経由で複数のiPad間に自動同期されます。"
+            "value" : "保存先"
+          }
+        }
+      }
+    },
+    "この端末に保存" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On this device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この端末に保存"
+          }
+        }
+      }
+    },
+    "iCloudに同期" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sync to iCloud"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloudに同期"
+          }
+        }
+      }
+    },
+    "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“On this device” stores settings only on this iPad. “Sync to iCloud” keeps them in sync across your iPads (requires iCloud to be enabled)."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。"
           }
         }
       }

@@ -73,6 +73,15 @@ struct SettingsView: View {
 
     private var shortcutSection: some View {
         Section {
+            Picker("保存先", selection: Binding(
+                get: { shortcutSync.storageLocation },
+                set: { shortcutSync.storageLocation = $0 }
+            )) {
+                ForEach(ShortcutStorageLocation.allCases) { loc in
+                    Text(loc.label).tag(loc)
+                }
+            }
+
             ForEach(shortcutSync.shortcuts) { item in
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
@@ -101,7 +110,7 @@ struct SettingsView: View {
                 Button("リセット") { showResetConfirm = true }.font(.caption)
             }
         } footer: {
-            Text("ShortcutDataはiCloud経由で複数のiPad間に自動同期されます。")
+            Text("「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。")
         }
     }
 
