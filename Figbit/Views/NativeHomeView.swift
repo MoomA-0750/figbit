@@ -11,10 +11,10 @@ struct NativeHomeView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 28) {
                 recentSection
-                if api.hasToken && !api.teamIDs.isEmpty {
+                if api.isAuthenticated && !api.teamIDs.isEmpty {
                     projectSection
                 }
-                if !api.hasToken {
+                if !api.isAuthenticated {
                     tokenPrompt
                 }
             }
@@ -67,14 +67,14 @@ struct NativeHomeView: View {
 
     private var tokenPrompt: some View {
         HStack(alignment: .top, spacing: 12) {
-            Image(systemName: "key.horizontal")
+            Image(systemName: "person.badge.key")
                 .font(.title2)
                 .foregroundStyle(.orange)
                 .frame(width: 28)
             VStack(alignment: .leading, spacing: 4) {
-                Text("Figma APIトークンを設定するとさらに便利に")
+                Text("Figmaアカウントと連携するとさらに便利に")
                     .font(.subheadline).fontWeight(.semibold)
-                Text("サムネイルの表示と、チームのプロジェクトブラウザが使えるようになります。\n設定 → Figma API で設定してください。")
+                Text("サムネイルの表示と、チームのプロジェクトブラウザが使えるようになります。\n設定 → Figma API → Figmaでサインイン で連携してください。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
