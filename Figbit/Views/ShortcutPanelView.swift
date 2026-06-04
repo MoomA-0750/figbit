@@ -6,7 +6,11 @@ struct ShortcutPanelView: View {
 
     @State private var isExpanded = false
     @State private var position: CGPoint = CGPoint(x: 0, y: 300)
-    @State private var dragOffset: CGSize = .zero
+    // ドラッグ開始時点の position を保持する（dragOffset を使わず position を直接更新する）
+    @State private var dragStartPosition: CGPoint = .zero
+    @State private var isDragging = false
+    // 慣性用: 直近のドラッグサンプル（SwiftUIのvalue.velocityは静止直前の速度を反映しないため自前計算する）
+    @State private var dragSamples: [(translation: CGSize, time: Date)] = []
 
     private let panelWidth: CGFloat = 200
     private let panelHeight: CGFloat = 280
@@ -32,26 +36,42 @@ struct ShortcutPanelView: View {
 
     private func collapsedTab(geo: GeometryProxy) -> some View {
         VStack(spacing: 4) {
-            Image(systemName: "bolt.fill")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(.white)
             Image(systemName: "chevron.left")
-                .font(.system(size: 10, weight: .bold))
-                .foregroundStyle(.white.opacity(0.8))
+                .font(.system(size: 12, weight: .bold))
+                .foregroundStyle(.primary)
         }
         .frame(width: tabWidth, height: tabHeight)
-        .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 10))
-        .shadow(color: .black.opacity(0.25), radius: 6, x: -2, y: 2)
+        .modifier(GlassTabStyle())
+        .contentShape(Rectangle())
         .position(CGPoint(x: geo.size.width - tabWidth / 2 + 10, y: clampedY(geo)))
         .gesture(
             DragGesture(minimumDistance: 5)
-                .onChanged { value in dragOffset = value.translation }
+                .onChanged { value in
+                    if !isDragging {
+                        isDragging = true
+                        dragStartPosition = position
+                        dragSamples.removeAll()
+                    }
+                    recordSample(value.translation)
+                    // position を直接更新することで dragOffset の累積誤差をなくす
+                    position.y = dragStartPosition.y + value.translation.height
+                }
                 .onEnded { value in
-                    let newY = clampedY(geo) + value.translation.height
-                    position.y = min(max(newY, tabHeight / 2 + 20), geo.size.height - tabHeight / 2 - 20)
-                    dragOffset = .zero
+                    isDragging = false
+                    let topBound    = tabHeight / 2 + 20
+                    let bottomBound = geo.size.height - tabHeight / 2 - 20
+                    // 境界内にスナップ（clamped表示値と一致させる）
+                    position.y = min(max(position.y, topBound), bottomBound)
+
                     if value.translation.width < -30 {
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) { isExpanded = true }
+                    } else {
+                        // 自前計算した離脱速度を使う（静止して離すとゼロになる）
+                        let vy = releaseVelocity().height
+                        let finalY = min(max(position.y + vy * 0.18, topBound), bottomBound)
+                        withAnimation(.spring(response: 0.55, dampingFraction: 0.72)) {
+                            position.y = finalY
+                        }
                     }
                 }
         )
@@ -65,43 +85,79 @@ struct ShortcutPanelView: View {
     private func expandedPanel(geo: GeometryProxy) -> some View {
         VStack(spacing: 0) {
             panelHeader
-            Divider()
+                .contentShape(Rectangle())
+                .gesture(panelDragGesture(geo))
             shortcutGrid
         }
         .frame(width: panelWidth)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
-        .overlay(RoundedRectangle(cornerRadius: 14).stroke(.separator, lineWidth: 0.5))
-        .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 4)
+        .modifier(GlassPanelStyle())
         .position(clampedPanelPosition(geo))
-        .gesture(
-            DragGesture()
-                .onChanged { value in dragOffset = value.translation }
-                .onEnded { value in
-                    let p = clampedPanelPosition(geo)
-                    let newX = p.x + value.translation.width
-                    let newY = p.y + value.translation.height
+        .transition(.scale(scale: 0.85, anchor: .trailing).combined(with: .opacity))
+    }
+
+    // ドラッグはタイトルバー（ヘッダー）のみに付ける。グリッドを触っても動かない。
+    // 座標空間は .global にする。ヘッダーは .position で動くパネルの子なので、.local だと
+    // 移動した座標で translation が再計測されてフィードバックループ（震え・移動量の目減り）になる。
+    private func panelDragGesture(_ geo: GeometryProxy) -> some Gesture {
+        DragGesture(coordinateSpace: .global)
+                .onChanged { value in
+                    if !isDragging {
+                        isDragging = true
+                        dragStartPosition = position
+                        dragSamples.removeAll()
+                    }
+                    recordSample(value.translation)
                     position = CGPoint(
-                        x: min(max(newX, panelWidth / 2 + 8), geo.size.width - panelWidth / 2 - 8),
-                        y: min(max(newY, panelHeight / 2 + 20), geo.size.height - panelHeight / 2 - 20)
+                        x: dragStartPosition.x + value.translation.width,
+                        y: dragStartPosition.y + value.translation.height
                     )
-                    dragOffset = .zero
-                    if position.x > geo.size.width - panelWidth / 2 - 40 {
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) { isExpanded = false }
+                }
+                .onEnded { value in
+                    isDragging = false
+                    let leftClamp   = panelWidth  / 2 + 8
+                    let rightClamp  = geo.size.width  - panelWidth  / 2 - 8
+                    let topClamp    = panelHeight / 2 + 20
+                    let bottomClamp = geo.size.height - panelHeight / 2 - 20
+
+                    // 境界内にスナップ（clamped表示値と一致させる。視覚的変化なし）
+                    position = CGPoint(
+                        x: min(max(position.x, leftClamp), rightClamp),
+                        y: min(max(position.y, topClamp),  bottomClamp)
+                    )
+
+                    // 収納判定: 速度ではなく translation / 開始位置で判定する
+                    let rawX = dragStartPosition.x + value.translation.width
+                    let isOffScreen        = rawX > geo.size.width - panelWidth / 2 + 20
+                    let isExtraSwipeAtEdge = dragStartPosition.x >= rightClamp - 2 && value.translation.width >= 25
+
+                    // 自前計算した離脱速度を使う（静止して離すとゼロになる）
+                    let v = releaseVelocity()
+                    let vx = v.width
+                    let vy = v.height
+                    let finalX = min(max(position.x + vx * 0.18, leftClamp),   rightClamp)
+                    let finalY = min(max(position.y + vy * 0.18, topClamp),    bottomClamp)
+
+                    if isOffScreen || isExtraSwipeAtEdge {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.85)) {
+                            position = CGPoint(x: position.x, y: finalY)
+                            isExpanded = false
+                        }
+                    } else {
+                        withAnimation(.spring(response: 0.55, dampingFraction: 0.72)) {
+                            position = CGPoint(x: finalX, y: finalY)
+                        }
                     }
                 }
-        )
-        .transition(.scale(scale: 0.85, anchor: .trailing).combined(with: .opacity))
     }
 
     private var panelHeader: some View {
         HStack {
-            Image(systemName: "bolt.fill").foregroundStyle(Color.accentColor).font(.system(size: 13))
             Text("ショートカット").font(.system(size: 12, weight: .semibold))
             Spacer()
             Button {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) { isExpanded = false }
             } label: {
-                Image(systemName: "chevron.right").font(.system(size: 11, weight: .bold)).foregroundStyle(.secondary)
+                Image(systemName: "xmark").font(.system(size: 11, weight: .bold)).foregroundStyle(.secondary)
             }
             .buttonStyle(.plain)
         }
@@ -121,51 +177,113 @@ struct ShortcutPanelView: View {
         .padding(8)
     }
 
+    // MARK: - Inertia velocity (self-computed)
+
+    // ドラッグ中に呼び、直近のサンプルだけを保持する。
+    private func recordSample(_ translation: CGSize) {
+        let now = Date()
+        dragSamples.append((translation, now))
+        // 直近120ms分だけ残す（バッファ肥大を防ぐ）
+        dragSamples.removeAll { now.timeIntervalSince($0.time) > 0.12 }
+    }
+
+    // 指を離した瞬間の速度（pt/s）を直近サンプルから算出する。
+    // 静止してから離すと直近サンプルの移動量がゼロになり、速度もゼロになる。
+    private func releaseVelocity() -> CGSize {
+        defer { dragSamples.removeAll() }
+        let now = Date()
+        // 直近100ms以内のサンプルのみを使う
+        let recent = dragSamples.filter { now.timeIntervalSince($0.time) < 0.1 }
+        guard let first = recent.first, let last = recent.last else { return .zero }
+        let dt = last.time.timeIntervalSince(first.time)
+        guard dt > 0.001 else { return .zero }
+        return CGSize(
+            width:  (last.translation.width  - first.translation.width)  / dt,
+            height: (last.translation.height - first.translation.height) / dt
+        )
+    }
+
     // MARK: - Helpers
 
     private func clampedY(_ geo: GeometryProxy) -> CGFloat {
-        let base = position.y + dragOffset.height
-        return min(max(base, tabHeight / 2 + 20), geo.size.height - tabHeight / 2 - 20)
+        min(max(position.y, tabHeight / 2 + 20), geo.size.height - tabHeight / 2 - 20)
     }
 
     private func clampedPanelPosition(_ geo: GeometryProxy) -> CGPoint {
-        let x = min(max(position.x + dragOffset.width, panelWidth / 2 + 8), geo.size.width - panelWidth / 2 - 8)
-        let y = min(max(position.y + dragOffset.height, panelHeight / 2 + 20), geo.size.height - panelHeight / 2 - 20)
-        return CGPoint(x: x, y: y)
+        CGPoint(
+            x: min(max(position.x, panelWidth  / 2 + 8), geo.size.width  - panelWidth  / 2 - 8),
+            y: min(max(position.y, panelHeight / 2 + 20), geo.size.height - panelHeight / 2 - 20)
+        )
     }
 }
 
 struct ShortcutButtonView: View {
     let item: ShortcutItem
     let action: () -> Void
-    @State private var isPressed = false
 
     var body: some View {
-        Button {
-            withAnimation(.easeInOut(duration: 0.08)) { isPressed = true }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
-                withAnimation(.easeInOut(duration: 0.08)) { isPressed = false }
-            }
-            action()
-        } label: {
+        Button(action: action) {
             VStack(spacing: 2) {
                 if let symbol = item.sfSymbol {
                     Image(systemName: symbol).font(.system(size: 14))
                 } else {
-                    Text(item.key.uppercased()).font(.system(size: 14, weight: .semibold, design: .monospaced))
+                    Text(item.keyGlyph).font(.system(size: 14, weight: .semibold, design: .monospaced))
                 }
-                Text(item.label).font(.system(size: 9)).lineLimit(1)
+                Text(LocalizedStringKey(item.label)).font(.system(size: 9)).lineLimit(1)
             }
-            .foregroundStyle(isPressed ? .white : .primary)
+            .foregroundStyle(.primary)
             .frame(maxWidth: .infinity)
             .frame(height: 50)
-            .background(
-                isPressed ? Color.accentColor : Color(uiColor: .systemBackground).opacity(0.8),
-                in: RoundedRectangle(cornerRadius: 8)
-            )
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(.separator, lineWidth: 0.5))
+            .modifier(ShortcutButtonBackground())
         }
-        .buttonStyle(.plain)
-        .scaleEffect(isPressed ? 0.92 : 1.0)
+        .buttonStyle(PressEffectButtonStyle(pressedScale: 1.12, glowColor: .accentColor))
+    }
+}
+
+// iOS 26では純正のインタラクティブなLiquid Glass、それ以前は半透明の塗り＋境界線。
+private struct ShortcutButtonBackground: ViewModifier {
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 26, *) {
+            content.glassEffect(.regular.interactive(), in: RoundedRectangle(cornerRadius: 8))
+        } else {
+            content
+                .background(
+                    Color(uiColor: .systemBackground).opacity(0.8),
+                    in: RoundedRectangle(cornerRadius: 8)
+                )
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(.separator, lineWidth: 0.5))
+        }
+    }
+}
+
+// MARK: - Adaptive Glass / Material Modifiers
+
+private struct GlassTabStyle: ViewModifier {
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 26, *) {
+            content
+                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 10))
+        } else {
+            content
+                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
+                .shadow(color: .black.opacity(0.25), radius: 6, x: -2, y: 2)
+        }
+    }
+}
+
+private struct GlassPanelStyle: ViewModifier {
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 26, *) {
+            content
+                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14))
+        } else {
+            content
+                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+                .overlay(RoundedRectangle(cornerRadius: 14).stroke(.separator, lineWidth: 0.5))
+                .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 4)
+        }
     }
 }

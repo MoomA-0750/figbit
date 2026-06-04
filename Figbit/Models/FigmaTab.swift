@@ -6,6 +6,8 @@ import Combine
 class FigmaTab: Identifiable {
     let id = UUID()
     var title: String = "Figma"
+    // 最後にこのタブを開いた（選択した）時刻。保持期間の判定に使う。
+    var lastAccessedAt: Date = Date()
     var isLoading: Bool = false
     var canGoBack: Bool = false
     var canGoForward: Bool = false
@@ -27,7 +29,7 @@ class FigmaTab: Identifiable {
 
         webView.publisher(for: \.title)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] t in self?.title = t?.isEmpty == false ? t! : "Figma" }
+            .sink { [weak self] t in self?.title = FigmaTab.cleanTitle(t) }
             .store(in: &cancellables)
 
         webView.publisher(for: \.isLoading)
@@ -51,7 +53,45 @@ class FigmaTab: Identifiable {
             .store(in: &cancellables)
     }
 
-    func load(url: URL = URL(string: "https://www.figma.com")!) {
+    func load(url: URL = URL(string: "https://www.figma.com/files")!) {
         webView.load(URLRequest(url: url))
+    }
+
+    // ブラウザのページタイトル末尾に付く「 – Figma」等のサフィックスを取り除く。
+    // 「Figma Slides」を「Figma」より先に判定して " Slides" の取り残しを防ぐ。
+    static func cleanTitle(_ raw: String?) -> String {
+        guard var t = raw, !t.isEmpty else { return "Figma" }
+        let suffixes = [
+            " – Figma Slides", " - Figma Slides",
+            " – FigJam", " - FigJam",
+            " – Figma", " - Figma",
+        ]
+        for s in suffixes where t.hasSuffix(s) {
+            t = String(t.dropLast(s.count))
+            break
+        }
+        t = t.trimmingCharacters(in: .whitespaces)
+        return t.isEmpty ? "Figma" : t
+    }
+
+    // 開いているページの種類。URLパスから判定し、タブのアイコンに使う。
+    enum Kind {
+        case design, figjam, slides, other
+        var symbol: String {
+            switch self {
+            case .design: return "paintbrush.pointed"
+            case .figjam: return "hand.draw"
+            case .slides: return "play.rectangle"
+            case .other:  return "doc"
+            }
+        }
+    }
+
+    var kind: Kind {
+        guard let path = currentURL?.path else { return .other }
+        if path.hasPrefix("/design/") || path.hasPrefix("/file/") { return .design }
+        if path.hasPrefix("/board/") { return .figjam }
+        if path.hasPrefix("/slides/") { return .slides }
+        return .other
     }
 }

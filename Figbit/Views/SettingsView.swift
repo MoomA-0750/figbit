@@ -1,5 +1,4 @@
 import SwiftUI
-import WebKit
 
 struct SettingsView: View {
     @Environment(ShortcutSyncManager.self) private var shortcutSync
@@ -15,6 +14,7 @@ struct SettingsView: View {
             List {
                 pencilModeSection
                 shortcutSection
+                tabSection
                 accountSection
             }
             .navigationTitle("設定")
@@ -47,8 +47,8 @@ struct SettingsView: View {
             ForEach(PencilMode.allCases) { mode in
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(mode.label).font(.body)
-                        Text(mode.description).font(.caption).foregroundStyle(.secondary)
+                        Text(LocalizedStringKey(mode.label)).font(.body)
+                        Text(LocalizedStringKey(mode.description)).font(.caption).foregroundStyle(.secondary)
                     }
                     Spacer()
                     if shortcutSync.pencilMode == mode {
@@ -76,7 +76,7 @@ struct SettingsView: View {
             ForEach(shortcutSync.shortcuts) { item in
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(item.label)
+                        Text(LocalizedStringKey(item.label))
                         Text(item.displayLabel)
                             .font(.caption)
                             .foregroundStyle(.secondary)
@@ -105,29 +105,66 @@ struct SettingsView: View {
         }
     }
 
-    private var accountSection: some View {
-        Section("Figmaアカウント") {
-            Button {
-                dismiss()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    if let webView = tabManager.activeTab?.webView,
-                       let vc = webView.window?.rootViewController {
-                        authManager.handleGoogleAuthURL(
-                            URL(string: "https://www.figma.com/login")!,
-                            for: webView,
-                            from: vc
-                        )
+    private let retentionOptions = [7, 14, 30, 60, 90, 0]
+
+    private var tabSection: some View {
+        Section {
+            Toggle("前回のタブを復元", isOn: Binding(
+                get: { tabManager.restoreTabsEnabled },
+                set: { tabManager.restoreTabsEnabled = $0 }
+            ))
+            if tabManager.restoreTabsEnabled {
+                Picker("タブの保持期間", selection: Binding(
+                    get: { tabManager.tabRetentionDays },
+                    set: { tabManager.tabRetentionDays = $0 }
+                )) {
+                    ForEach(retentionOptions, id: \.self) { days in
+                        if days <= 0 {
+                            Text("無期限").tag(days)
+                        } else {
+                            Text("\(days)日").tag(days)
+                        }
                     }
                 }
-            } label: {
-                Label("Figmaにログイン", systemImage: "safari")
+            }
+        } header: {
+            Text("タブ")
+        } footer: {
+            Text("アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。")
+        }
+    }
+
+    private var accountSection: some View {
+        Section("Figmaアカウント") {
+            if authManager.isLoggedIn == true {
+                HStack(spacing: 12) {
+                    Image(systemName: "person.crop.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.green)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("ログイン済み")
+                            .font(.body)
+                        if let handle = authManager.userHandle, !handle.isEmpty {
+                            Text(handle)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .padding(.vertical, 2)
+            } else {
+                Button {
+                    dismiss()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        authManager.presentLogin(navigating: tabManager.activeTab)
+                    }
+                } label: {
+                    Label("Figmaにログイン", systemImage: "person.crop.circle")
+                }
             }
 
             Button(role: .destructive) {
-                WKWebsiteDataStore.default().removeData(
-                    ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
-                    modifiedSince: .distantPast
-                ) { }
+                authManager.clearSession(then: tabManager.activeTab)
             } label: {
                 Label("セッションをクリア", systemImage: "trash")
             }
