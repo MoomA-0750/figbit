@@ -233,7 +233,7 @@ struct SettingsView: View {
             Text("Figma API")
         } footer: {
             // swiftlint:disable line_length
-            Text("figma.com/developers でアプリを作成し、Redirect URI に「figbit://oauth/callback」を設定してください。Client IDとClient Secretをここに入力後、「Figmaでサインイン」をタップします。チームIDはfigma.com/files/team/{チームID} のURLで確認できます。")
+            Text("figma.com/developers でアプリを作成し、Redirect URI に「figbit://oauth/callback」を設定してください。OAuth scopes → Files で「file_content:read」と「file_metadata:read」を有効化し、Client IDとClient Secretをここに入力後「Figmaでサインイン」をタップします。チームIDはfigma.com/files/team/{チームID} のURLで確認できます。")
             // swiftlint:enable line_length
         }
         .alert("チームIDを追加", isPresented: $showAddTeamID) {
