@@ -20,6 +20,38 @@
         }
       }
     },
+    "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“On this device” stores settings only on this iPad. “Sync to iCloud” keeps them in sync across your iPads (requires iCloud to be enabled)."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。"
+          }
+        }
+      }
+    },
+    "%lld日" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld days"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld日"
+          }
+        }
+      }
+    },
     "100%にズーム" : {
       "localizations" : {
         "en" : {
@@ -68,6 +100,12 @@
           }
         }
       }
+    },
+    "Clear" : {
+
+    },
+    "DEBUG LOG" : {
+
     },
     "Figmaアカウント" : {
       "localizations" : {
@@ -134,54 +172,6 @@
         }
       }
     },
-    "PencilMode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Input Mode"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "入力モード"
-          }
-        }
-      }
-    },
-    "保存先" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Storage"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存先"
-          }
-        }
-      }
-    },
-    "この端末に保存" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On this device"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "この端末に保存"
-          }
-        }
-      }
-    },
     "iCloudに同期" : {
       "localizations" : {
         "en" : {
@@ -198,18 +188,18 @@
         }
       }
     },
-    "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。" : {
+    "PencilMode" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“On this device” stores settings only on this iPad. “Sync to iCloud” keeps them in sync across your iPads (requires iCloud to be enabled)."
+            "value" : "Input Mode"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。"
+            "value" : "入力モード"
           }
         }
       }
@@ -291,6 +281,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "アイコンを選択（省略可）"
+          }
+        }
+      }
+    },
+    "アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restores the tabs you had open when the app restarts. Tabs that haven't been opened within the set period are closed automatically."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。"
           }
         }
       }
@@ -419,6 +425,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "グループ解除"
+          }
+        }
+      }
+    },
+    "この端末に保存" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On this device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この端末に保存"
           }
         }
       }
@@ -596,6 +618,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "セッションをクリア"
+          }
+        }
+      }
+    },
+    "タブ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tabs"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タブ"
+          }
+        }
+      }
+    },
+    "タブの保持期間" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep tabs for"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タブの保持期間"
           }
         }
       }
@@ -988,6 +1042,22 @@
         }
       }
     },
+    "保存先" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Storage"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存先"
+          }
+        }
+      }
+    },
     "修飾キー" : {
       "localizations" : {
         "en" : {
@@ -1081,6 +1151,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "削除"
+          }
+        }
+      }
+    },
+    "前回のタブを復元" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore previous tabs"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前回のタブを復元"
           }
         }
       }
@@ -1295,6 +1381,22 @@
         }
       }
     },
+    "無期限" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無期限"
+          }
+        }
+      }
+    },
     "特殊キー" : {
 
     },
@@ -1472,102 +1574,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
-          }
-        }
-      }
-    },
-    "タブ" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tabs"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "タブ"
-          }
-        }
-      }
-    },
-    "前回のタブを復元" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore previous tabs"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "前回のタブを復元"
-          }
-        }
-      }
-    },
-    "アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restores the tabs you had open when the app restarts. Tabs that haven't been opened within the set period are closed automatically."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。"
-          }
-        }
-      }
-    },
-    "タブの保持期間" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keep tabs for"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "タブの保持期間"
-          }
-        }
-      }
-    },
-    "無期限" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlimited"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無期限"
-          }
-        }
-      }
-    },
-    "%lld日" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld days"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld日"
           }
         }
       }

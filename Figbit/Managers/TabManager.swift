@@ -22,6 +22,17 @@ class TabManager {
     private let processPool = WKProcessPool()
     private let dataStore = WKWebsiteDataStore.default()
 
+    // ホーム画面として表示する figma.com/files のWebタブ。タブ一覧には含めない。
+    // PC版公式アプリのように「ホームはタブではない」挙動を実現するための専用タブ。
+    // 参照は不変なので観測不要（@Observable は lazy var を許可しないため @ObservationIgnored も必須）。
+    @ObservationIgnored private(set) lazy var homeTab: FigmaTab = makeHomeTab()
+
+    private func makeHomeTab() -> FigmaTab {
+        let tab = FigmaTab(processPool: processPool, dataStore: dataStore, isHome: true)
+        tab.load(url: URL(string: "https://www.figma.com/files")!)
+        return tab
+    }
+
     private enum Keys {
         static let restoreEnabled = "figbit.restoreTabs.enabled.v1"
         static let sessionURLs = "figbit.session.urls.v1"
@@ -40,7 +51,7 @@ class TabManager {
         return tabs[activeIndex]
     }
 
-    // url を省略するとページを読み込まず、ネイティブホーム画面が表示される。
+    // url を省略するとページを読み込まず、空タブのまま（ホームが上に重なる）。
     func addTab(url: URL? = nil) {
         let tab = FigmaTab(processPool: processPool, dataStore: dataStore)
         tabs.append(tab)
@@ -69,13 +80,12 @@ class TabManager {
 
     // MARK: - Session Restore
 
-    // 起動時に呼ぶ。復元がOFFか保存が無ければ既定の1タブを開く。
+    // 起動時に呼ぶ。復元がOFFか保存が無ければタブを作らず、ホーム画面を表示する。
     // 最後に開いてから保持期間を過ぎたタブは復元せず（＝自動で閉じる）。
     func restoreSessionOrDefault() {
         guard restoreTabsEnabled,
               let urls = UserDefaults.standard.stringArray(forKey: Keys.sessionURLs),
               !urls.isEmpty else {
-            addTab()
             return
         }
         let timestamps = UserDefaults.standard.array(forKey: Keys.sessionTimestamps) as? [Double] ?? []

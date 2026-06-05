@@ -16,11 +16,23 @@ class FigmaTab: Identifiable {
     let webView: PencilAwareWebView
     private var cancellables: Set<AnyCancellable> = []
 
-    init(processPool: WKProcessPool, dataStore: WKWebsiteDataStore) {
+    init(processPool: WKProcessPool, dataStore: WKWebsiteDataStore, isHome: Bool = false) {
         let config = WKWebViewConfiguration()
         config.processPool = processPool
         config.websiteDataStore = dataStore
         config.preferences.javaScriptCanOpenWindowsAutomatically = true
+
+        // ホームタブだけ、ファイルカードのクリックを捕捉してネイティブへ通知するJSを仕込む。
+        // これによりホームWebView自身は遷移せず（＝ホームはタブにならない）、
+        // ファイルは新規タブで開ける。ページ読込前から効くよう生成時に登録する。
+        if isHome {
+            let script = WKUserScript(
+                source: FigmaTab.homeBridgeScript,
+                injectionTime: .atDocumentStart,
+                forMainFrameOnly: false
+            )
+            config.userContentController.addUserScript(script)
+        }
 
         let webView = PencilAwareWebView(frame: .zero, configuration: config)
         webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15"
@@ -56,6 +68,35 @@ class FigmaTab: Identifiable {
     func load(url: URL = URL(string: "https://www.figma.com/files")!) {
         webView.load(URLRequest(url: url))
     }
+
+    // ホームWebViewに仕込むクリック傍受スクリプト。
+    // ファイル（design/file/board/slides/proto + キー）へのリンクのクリックを capture フェーズで捕まえ、
+    // Figma自身のSPA遷移を止めて（stopImmediatePropagation+preventDefault）、URLをネイティブへ渡す。
+    // ネイティブ側はそれを新規タブで開くので、ホーム自体は figma.com/files に留まる。
+    static let homeBridgeScript = """
+    (function(){
+      if (window.__figbitHomeBridge) return;
+      window.__figbitHomeBridge = true;
+      function fileHref(t){
+        var a = t && t.closest ? t.closest('a[href]') : null;
+        if(!a) return null;
+        try{
+          var u = new URL(a.href, location.href);
+          if(!/(^|\\.)figma\\.com$/.test(u.hostname)) return null;
+          var p = u.pathname.split('/').filter(Boolean);
+          if(p.length>=2 && ['design','file','board','slides','proto'].indexOf(p[0])>=0 && p[1]) return u.href;
+        }catch(e){}
+        return null;
+      }
+      document.addEventListener('click', function(e){
+        var href = fileHref(e.target);
+        if(!href) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        try{ window.webkit.messageHandlers.figbitOpenFile.postMessage(href); }catch(err){}
+      }, true);
+    })();
+    """
 
     // ブラウザのページタイトル末尾に付く「 – Figma」等のサフィックスを取り除く。
     // 「Figma Slides」を「Figma」より先に判定して " Slides" の取り残しを防ぐ。

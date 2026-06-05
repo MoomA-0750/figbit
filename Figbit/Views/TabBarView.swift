@@ -1,6 +1,6 @@
 import SwiftUI
 
-// [(ホーム)          (タブストリップ)          (+) (歯車)]
+// [(ホーム)          (タブストリップ)          (歯車)]
 // ホームボタンはタブが増える前から常に存在し、ホーム画面を表示する。
 // タブストリップはファイルタブの一覧。タブが0枚のときは非表示。
 struct TabToolbar: ToolbarContent {
@@ -23,17 +23,14 @@ struct TabToolbar: ToolbarContent {
                 TabStrip(
                     tabManager: tabManager,
                     windowWidth: windowWidth,
+                    showingHome: showingHome,
                     closeHome: { showingHome = false }
                 )
             }
         }
 
-        // ＋と歯車（右）
-        ToolbarItemGroup(placement: .topBarTrailing) {
-            // ＋はホームを開いてファイルを選ばせる（新規タブはファイル確定後に作られる）
-            Button { showingHome = true } label: {
-                Image(systemName: "plus")
-            }
+        // 歯車（右）
+        ToolbarItem(placement: .topBarTrailing) {
             Button { showSettings = true } label: {
                 Image(systemName: "gearshape")
             }
@@ -60,6 +57,8 @@ private struct ContentWidthKey: PreferenceKey {
 private struct TabStrip: View {
     var tabManager: TabManager
     var windowWidth: CGFloat
+    // ホーム表示中はどのタブもアクティブに見せない（紛らわしいため）。
+    var showingHome: Bool = false
     // タブチップがタップされたときにホームを閉じるコールバック
     var closeHome: () -> Void = {}
     @State private var contentWidth: CGFloat = 0
@@ -79,6 +78,8 @@ private struct TabStrip: View {
         .modifier(TabGroupBackground())
         .background(measuringProbe)
         .onPreferenceChange(ContentWidthKey.self) { contentWidth = $0 }
+        // カプセル背景の幅もタブ数の増減に合わせてなめらかに伸縮させる。
+        .animation(.spring(response: 0.35, dampingFraction: 0.78), value: tabManager.tabs.count)
     }
 
     private var measuringProbe: some View {
@@ -100,16 +101,24 @@ private struct TabStrip: View {
             ForEach(Array(tabManager.tabs.enumerated()), id: \.element.id) { index, tab in
                 TabChip(
                     tab: tab,
-                    isActive: index == tabManager.activeIndex,
+                    isActive: !showingHome && index == tabManager.activeIndex,
                     onSelect: {
                         tabManager.selectTab(at: index)
                         closeHome()          // タブを選んだらホームを閉じる
                     },
-                    onClose: { tabManager.closeTab(at: index) }
+                    onClose: {
+                        // 閉じるボタン自身が起点だと暗黙アニメが除去トランジションを取りこぼすため明示的に包む。
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.78)) {
+                            tabManager.closeTab(at: index)
+                        }
+                    }
                 )
+                // タブの追加/削除時にチップがスケール＋フェードで出入りする。
+                .transition(.scale(scale: 0.6).combined(with: .opacity))
             }
         }
         .padding(5)
+        .animation(.spring(response: 0.35, dampingFraction: 0.78), value: tabManager.tabs.count)
 
         if #available(iOS 26, *) {
             GlassEffectContainer { stack }

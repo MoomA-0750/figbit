@@ -21,11 +21,18 @@ struct ContentView: View {
                 ShortcutPanelView()
                     .environment(tabManager)
 
-                if shouldShowNativeHome {
-                    NativeHomeView(onOpen: openFromHome)
-                        .environment(figmaAPI)
-                        .transition(.opacity)
-                        .zIndex(1)
+                if shouldShowHome {
+                    // ネイティブUIではなく figma.com/files をそのままホームとして表示する。
+                    // ファイルを選ぶと onOpenFile が発火し、新規タブで開く（ホーム自体はタブにしない）。
+                    FigmaCanvasView(
+                        tabManager: tabManager,
+                        tab: tabManager.homeTab,
+                        onPageLoad: { url, title in figmaAPI.recordVisit(url: url, title: title) },
+                        onOpenFile: openFromHome
+                    )
+                    .ignoresSafeArea(edges: .bottom)
+                    .transition(.opacity)
+                    .zIndex(1)
                 }
             }
             .background(
@@ -45,7 +52,7 @@ struct ContentView: View {
                 )
             }
         }
-        .animation(.easeInOut(duration: 0.18), value: shouldShowNativeHome)
+        .animation(.easeInOut(duration: 0.18), value: shouldShowHome)
         .onAppear { menuRouter.tabManager = tabManager }
         .task {
             if tabManager.tabs.isEmpty { tabManager.restoreSessionOrDefault() }
@@ -66,11 +73,11 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Native Home Condition
+    // MARK: - Home Condition
 
-    // URL チェックをやめて showingHome を唯一の真実の源にする。
+    // showingHome を唯一の真実の源にする。
     // タブが 0 枚のときは問答無用でホームを表示する。
-    var shouldShowNativeHome: Bool {
+    var shouldShowHome: Bool {
         showingHome || tabManager.tabs.isEmpty
     }
 

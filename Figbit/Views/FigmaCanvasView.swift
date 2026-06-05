@@ -4,7 +4,13 @@ import UIKit
 
 struct FigmaCanvasView: UIViewRepresentable {
     var tabManager: TabManager
+    // 表示するタブを明示的に指定する。nil のときはアクティブタブを表示する（通常のエディタ）。
+    // ホーム画面は専用の homeTab を渡して使う。
+    var tab: FigmaTab? = nil
     var onPageLoad: ((URL, String) -> Void)? = nil
+    // セットされていると、このWebView内でのファイルURLへの遷移を中断し、代わりにこのコールバックを呼ぶ。
+    // ホーム画面でファイルを選んだら新規タブで開く挙動（PC版公式アプリ同様）に使う。
+    var onOpenFile: ((URL) -> Void)? = nil
     @Environment(AuthManager.self) private var authManager
     @Environment(ShortcutSyncManager.self) private var shortcutSync
 
@@ -15,7 +21,7 @@ struct FigmaCanvasView: UIViewRepresentable {
     }
 
     func updateUIView(_ container: UIView, context: Context) {
-        guard let tab = tabManager.activeTab else { return }
+        guard let tab = tab ?? tabManager.activeTab else { return }
         let webView = tab.webView
 
         if webView.superview !== container {
@@ -31,13 +37,19 @@ struct FigmaCanvasView: UIViewRepresentable {
             webView.navigationDelegate = context.coordinator
             webView.uiDelegate = context.coordinator
             context.coordinator.mainWebView = webView
+            context.coordinator.observeTitleChanges(of: webView)
             // タブ切替時、既に表示中のURLでログイン状態を即時反映する
             context.coordinator.authManager.updateLoginState(from: webView.url)
+            // ホーム画面なら、ファイルカードのクリックを受け取るネイティブ側ハンドラを登録する。
+            if onOpenFile != nil {
+                context.coordinator.installHomeBridge(on: webView)
+            }
         }
 
         webView.pencilMode = shortcutSync.pencilMode
         // ページ読み込み完了通知のクロージャを毎回更新する（クロージャが参照するobjectが変わり得るため）
         context.coordinator.onPageLoad = onPageLoad
+        context.coordinator.onOpenFile = onOpenFile
     }
 
     func makeCoordinator() -> Coordinator {
@@ -46,14 +58,88 @@ struct FigmaCanvasView: UIViewRepresentable {
 
     // MARK: - Coordinator
 
-    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
+    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
         let authManager: AuthManager
         var onPageLoad: ((URL, String) -> Void)?
+        var onOpenFile: ((URL) -> Void)?
         weak var mainWebView: WKWebView?
         weak var popupVC: UIViewController?
+        private var titleObservation: NSKeyValueObservation?
+        private var urlObservation: NSKeyValueObservation?
+        // ホームWebViewのファイル切り出し中フラグ。SPA遷移でURLが複数回変わるため二重起動を防ぐ。
+        private var isPoppingHomeFile = false
+        // ホーム用のネイティブ橋（メッセージハンドラ）を二重登録しないためのフラグ。
+        private var didInstallHomeBridge = false
 
         init(authManager: AuthManager) {
             self.authManager = authManager
+        }
+
+        // ホームWebViewのJS（FigmaTab.homeBridgeScript）から送られるファイルURLを受け取るハンドラを登録する。
+        // 受け取ったURLは新規タブで開く（フレッシュなタブは確実に描画されるため白画面にならない）。
+        func installHomeBridge(on webView: WKWebView) {
+            guard !didInstallHomeBridge else { return }
+            didInstallHomeBridge = true
+            let ucc = webView.configuration.userContentController
+            ucc.removeScriptMessageHandler(forName: "figbitOpenFile")
+            ucc.add(self, name: "figbitOpenFile")
+        }
+
+        func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+            guard message.name == "figbitOpenFile",
+                  let str = message.body as? String,
+                  let url = URL(string: str),
+                  Self.isFigmaFileURL(url) else { return }
+            onOpenFile?(url)
+        }
+
+        deinit {
+            titleObservation?.invalidate()
+            urlObservation?.invalidate()
+        }
+
+        // Figma は SPA なので pushState ナビゲーションでは didFinish/decidePolicyFor が発火しない。
+        // title と url の KVO 監視でSPA遷移を拾う。
+        // - title: recordVisit を確実に呼ぶ。
+        // - url: ホーム画面のWebViewがファイル（エディタ）URLへ遷移したら、それをタブに切り出す。
+        func observeTitleChanges(of webView: WKWebView) {
+            titleObservation?.invalidate()
+            titleObservation = webView.observe(\.title) { [weak self, weak webView] _, _ in
+                guard let webView,
+                      let url = webView.url,
+                      let title = webView.title, !title.isEmpty else { return }
+                self?.onPageLoad?(url, title)
+            }
+            urlObservation?.invalidate()
+            urlObservation = webView.observe(\.url) { [weak self, weak webView] _, _ in
+                guard let self, let webView, let url = webView.url else { return }
+                // 保険: JS傍受をすり抜けてホームWebView自身がファイルへ遷移した場合の復帰処理。
+                if self.onOpenFile != nil, webView === self.mainWebView, Self.isFigmaFileURL(url) {
+                    self.recoverHomeNavigatedToFile(url, home: webView)
+                }
+            }
+        }
+
+        // 保険経路: ホームWebViewがJS傍受をすり抜けて自分でファイルを開いてしまった場合。
+        // そのファイルを新規タブ（フレッシュなので描画OK）で開き直し、ホームは figma.com/files に戻す。
+        private func recoverHomeNavigatedToFile(_ url: URL, home: WKWebView) {
+            guard !isPoppingHomeFile else { return }
+            isPoppingHomeFile = true
+            onOpenFile?(url)
+            home.load(URLRequest(url: URL(string: "https://www.figma.com/files")!))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+                self?.isPoppingHomeFile = false
+            }
+        }
+
+        // figma.com のファイル（design/file/board/slides/proto + キー）URLか判定する。
+        static func isFigmaFileURL(_ url: URL) -> Bool {
+            guard url.host?.hasSuffix("figma.com") == true else { return false }
+            let parts = url.pathComponents
+            guard parts.count >= 3,
+                  ["design", "board", "slides", "file", "proto"].contains(parts[1]),
+                  !parts[2].isEmpty else { return false }
+            return true
         }
 
         // メインWebViewのナビゲーション完了時のみログイン状態を更新する

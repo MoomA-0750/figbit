@@ -1,53 +1,5 @@
 import Foundation
 
-// MARK: - API response types (Decodable only, used inside FigmaAPIManager)
-
-struct FigmaAPIUser: Decodable {
-    let id: String
-    let email: String
-    let handle: String
-    let imgUrl: String?
-    enum CodingKeys: String, CodingKey {
-        case id, email, handle
-        case imgUrl = "img_url"
-    }
-}
-
-struct FigmaAPIProject: Decodable, Identifiable {
-    let id: String
-    let name: String
-}
-
-struct FigmaAPIFile: Decodable, Identifiable {
-    let key: String
-    let name: String
-    let thumbnailUrl: String?
-    let lastModified: String?
-    var id: String { key }
-    enum CodingKeys: String, CodingKey {
-        case key, name
-        case thumbnailUrl = "thumbnail_url"
-        case lastModified = "last_modified"
-    }
-}
-
-struct FigmaProjectsResponse: Decodable {
-    let projects: [FigmaAPIProject]
-}
-
-struct FigmaProjectFilesResponse: Decodable {
-    let files: [FigmaAPIFile]
-}
-
-struct FigmaFileMetaResponse: Decodable {
-    let name: String
-    let thumbnailUrl: String?
-    enum CodingKeys: String, CodingKey {
-        case name
-        case thumbnailUrl = "thumbnail_url"
-    }
-}
-
 // MARK: - Local recent file record
 
 struct RecentFigmaFile: Codable, Identifiable, Equatable {
