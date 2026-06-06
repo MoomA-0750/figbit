@@ -92,6 +92,13 @@ class ShortcutSyncManager {
         save()
     }
 
+    func updateShortcut(_ item: ShortcutItem) {
+        if let idx = shortcuts.firstIndex(where: { $0.id == item.id }) {
+            shortcuts[idx] = item
+            save()
+        }
+    }
+
     func removeShortcuts(at offsets: IndexSet) {
         shortcuts.remove(atOffsets: offsets)
         save()

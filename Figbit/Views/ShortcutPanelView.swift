@@ -29,6 +29,21 @@ struct ShortcutPanelView: View {
             .onAppear {
                 position = CGPoint(x: geo.size.width - panelWidth / 2 - 8, y: geo.size.height * 0.4)
             }
+            .onReceive(NotificationCenter.default.publisher(for: .figbitPencilAction)) { note in
+                guard let windowLoc = note.userInfo?["windowLocation"] as? CGPoint else { return }
+                // geo.frame(in: .global) はSwiftUIのグローバル座標系（= UIWindow座標）のオリジンを返す。
+                // ウィンドウ座標からGeometryReaderのローカル座標に変換する。
+                let geoOrigin = geo.frame(in: .global).origin
+                let localLoc = CGPoint(x: windowLoc.x - geoOrigin.x, y: windowLoc.y - geoOrigin.y)
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                    if isExpanded {
+                        isExpanded = false
+                    } else {
+                        position = localLoc
+                        isExpanded = true
+                    }
+                }
+            }
         }
     }
 
@@ -91,6 +106,12 @@ struct ShortcutPanelView: View {
         }
         .frame(width: panelWidth)
         .modifier(GlassPanelStyle())
+        // パネル全体（ボタン以外の余白・背景含む）を確実なヒット領域にして、
+        // タップ／ホバーが背後のWebViewへ抜けないようにする。WebViewはペン追跡用の
+        // ホバー認識器を持つため、パネルが全種別で領域を主張しないとボタンまでホバーが
+        // 届かない（=ホバー無反応になる）。.position より前に置く点も重要
+        // （後ろだとフレームが親全体に広がり画面全体を奪う）。
+        .contentShape(Rectangle())
         .position(clampedPanelPosition(geo))
         .transition(.scale(scale: 0.85, anchor: .trailing).combined(with: .opacity))
     }
@@ -169,8 +190,17 @@ struct ShortcutPanelView: View {
         let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
         return LazyVGrid(columns: columns, spacing: 6) {
             ForEach(shortcutSync.shortcuts) { item in
-                ShortcutButtonView(item: item) {
-                    tabManager.activeTab?.webView.send(shortcut: item)
+                if item.kind == .modifierHold, !item.modifiers.isEmpty {
+                    ShortcutButtonView(
+                        item: item,
+                        action: {},
+                        onPress: { item.modifiers.forEach { tabManager.activeTab?.webView.activateModifier($0) } },
+                        onRelease: { item.modifiers.forEach { tabManager.activeTab?.webView.deactivateModifier($0) } }
+                    )
+                } else {
+                    ShortcutButtonView(item: item, action: {
+                        tabManager.activeTab?.webView.send(shortcut: item)
+                    })
                 }
             }
         }
@@ -220,39 +250,149 @@ struct ShortcutPanelView: View {
 struct ShortcutButtonView: View {
     let item: ShortcutItem
     let action: () -> Void
+    var onPress: (() -> Void)? = nil
+    var onRelease: (() -> Void)? = nil
+
+    // Apple Pencil / ポインタのホバー状態。ボタン全面で検出するため .onHover を使う
+    // （純正 .hoverEffect はPencilだと不透明な中身の上でしか安定発火しないため）。
+    @State private var isHovering = false
+    // modifier-hold 専用の状態
+    @State private var isSticky = false
+    @State private var isHeld = false
+    @State private var pressStartTime: Date = .distantPast
+    // 直近の「クイックタップ」を離した時刻。長押し（物理ホールド）では更新しない。
+    @State private var lastTapTime: Date = .distantPast
+    // 今回の押下でスティッキーをトグルしたか（トグル時はタップ記録しない）。
+    @State private var didToggleStickyThisPress = false
+
+    private var isActive: Bool { isSticky || isHeld }
 
     var body: some View {
+        if item.kind == .modifierHold {
+            modifierHoldButton
+        } else {
+            regularButton
+        }
+    }
+
+    private var regularButton: some View {
         Button(action: action) {
-            VStack(spacing: 2) {
-                if let symbol = item.sfSymbol {
-                    Image(systemName: symbol).font(.system(size: 14))
-                } else {
-                    Text(item.keyGlyph).font(.system(size: 14, weight: .semibold, design: .monospaced))
-                }
-                Text(LocalizedStringKey(item.label)).font(.system(size: 9)).lineLimit(1)
-            }
+            buttonLabel
+                .foregroundStyle(.primary)
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .modifier(ShortcutButtonBackground())
+        }
+        .buttonStyle(PressEffectButtonStyle(pressedScale: 1.12, glowColor: .accentColor))
+        // 純正 .lift 風の持ち上がり（位置移動なし＝チラつかない）。ボタン全面で反応。
+        .scaleEffect(isHovering ? 1.05 : 1.0)
+        .brightness(isHovering ? 0.04 : 0)
+        .shadow(color: .black.opacity(isHovering ? 0.28 : 0), radius: isHovering ? 8 : 0, y: isHovering ? 3 : 0)
+        .animation(.spring(response: 0.25, dampingFraction: 0.75), value: isHovering)
+        .onHover { isHovering = $0 }
+    }
+
+    // 物理ホールド中はボタンが拡大。ダブルタップでスティッキー（ハイライト持続）。
+    private var modifierHoldButton: some View {
+        buttonLabel
             .foregroundStyle(.primary)
             .frame(maxWidth: .infinity)
             .frame(height: 50)
-            .modifier(ShortcutButtonBackground())
+            .modifier(ShortcutButtonBackground(isActive: isActive))
+            .scaleEffect(isHeld ? 1.12 : (isHovering ? 1.05 : 1.0))
+            .brightness(isHovering && !isActive ? 0.04 : 0)
+            .shadow(color: .black.opacity(isHovering && !isHeld ? 0.28 : 0), radius: isHovering && !isHeld ? 8 : 0, y: isHovering && !isHeld ? 3 : 0)
+            .animation(.spring(response: 0.15, dampingFraction: 0.7), value: isHeld)
+            .animation(.spring(response: 0.25, dampingFraction: 0.75), value: isHovering)
+            .contentShape(Rectangle())
+            .onHover { isHovering = $0 }
+            // DragGesture(minimumDistance:0) は静止押しで onChanged が発火しないことがあるため、
+            // 静止押しでも確実に press/release を取れる onLongPressGesture(pressing:) を使う。
+            // maximumDistance: .infinity でホールド中に指がボタン外へずれてもキャンセルしない。
+            .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, pressing: { pressing in
+                if pressing { handlePress() } else { handleRelease() }
+            }, perform: {})
+            .onDisappear {
+                // パネルが閉じた時などにアクティブなままにならないようクリーンアップ
+                if isActive { onRelease?() }
+                isHeld = false
+                isSticky = false
+                isHovering = false
+                lastTapTime = .distantPast
+                didToggleStickyThisPress = false
+            }
+    }
+
+    @ViewBuilder
+    private var buttonLabel: some View {
+        VStack(spacing: 2) {
+            if let symbol = item.sfSymbol {
+                Image(systemName: symbol).font(.system(size: 14))
+            } else {
+                Text(item.keyGlyph).font(.system(size: 14, weight: .semibold, design: .monospaced))
+            }
+            Text(LocalizedStringKey(item.label)).font(.system(size: 9)).lineLimit(1)
         }
-        .buttonStyle(PressEffectButtonStyle(pressedScale: 1.12, glowColor: .accentColor))
+    }
+
+    private func handlePress() {
+        guard !isHeld else { return }
+        let wasActive = isActive
+        let now = Date()
+        pressStartTime = now
+        isHeld = true
+        // 直前が「クイックタップ」で、その離上から350ms以内の押下ならダブルタップ → スティッキーをトグル。
+        // 長押し（物理ホールド）はタップとして記録されないため、連続ホールドで誤トグルしない。
+        if now.timeIntervalSince(lastTapTime) < 0.35 {
+            isSticky.toggle()
+            lastTapTime = .distantPast
+            didToggleStickyThisPress = true
+        } else {
+            didToggleStickyThisPress = false
+        }
+        if !wasActive && isActive { onPress?() }
+        if wasActive && !isActive { onRelease?() }
+    }
+
+    private func handleRelease() {
+        let wasActive = isActive
+        isHeld = false
+        let now = Date()
+        // スティッキートグルではなく、短時間で離されたら「クイックタップ」として記録する。
+        // 長押しは記録しないので、次のホールドが誤ってダブルタップ扱いされない。
+        if !didToggleStickyThisPress, now.timeIntervalSince(pressStartTime) < 0.25 {
+            lastTapTime = now
+        } else {
+            lastTapTime = .distantPast
+        }
+        if wasActive && !isActive { onRelease?() }
     }
 }
 
 // iOS 26では純正のインタラクティブなLiquid Glass、それ以前は半透明の塗り＋境界線。
+// isActive=true の時はアクセントカラーでハイライトする。
 private struct ShortcutButtonBackground: ViewModifier {
+    var isActive: Bool = false
+
     @ViewBuilder
     func body(content: Content) -> some View {
         if #available(iOS 26, *) {
-            content.glassEffect(.regular.interactive(), in: RoundedRectangle(cornerRadius: 8))
+            content
+                .glassEffect(.regular.interactive(), in: RoundedRectangle(cornerRadius: 8))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(isActive ? Color.accentColor.opacity(0.3) : .clear)
+                )
         } else {
             content
                 .background(
-                    Color(uiColor: .systemBackground).opacity(0.8),
+                    isActive ? Color.accentColor.opacity(0.25) : Color(uiColor: .systemBackground).opacity(0.8),
                     in: RoundedRectangle(cornerRadius: 8)
                 )
-                .overlay(RoundedRectangle(cornerRadius: 8).stroke(.separator, lineWidth: 0.5))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(
+                    isActive ? Color.accentColor : Color(.separator),
+                    lineWidth: isActive ? 1.0 : 0.5
+                ))
         }
     }
 }

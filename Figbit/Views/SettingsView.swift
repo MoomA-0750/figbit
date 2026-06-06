@@ -8,6 +8,7 @@ struct SettingsView: View {
 
     @State private var showAddShortcut = false
     @State private var showResetConfirm = false
+    @State private var editingItem: ShortcutItem?
 
     var body: some View {
         NavigationStack {
@@ -26,6 +27,10 @@ struct SettingsView: View {
             }
             .sheet(isPresented: $showAddShortcut) {
                 AddShortcutView()
+                    .environment(shortcutSync)
+            }
+            .sheet(item: $editingItem) { item in
+                AddShortcutView(editingItem: item)
                     .environment(shortcutSync)
             }
             .confirmationDialog(
@@ -96,6 +101,8 @@ struct SettingsView: View {
                         Image(systemName: symbol).foregroundStyle(.secondary)
                     }
                 }
+                .contentShape(Rectangle())
+                .onTapGesture { editingItem = item }
             }
             .onDelete { shortcutSync.removeShortcuts(at: $0) }
             .onMove { shortcutSync.moveShortcut(from: $0, to: $1) }

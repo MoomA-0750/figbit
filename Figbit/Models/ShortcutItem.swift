@@ -6,6 +6,12 @@ struct ShortcutItem: Identifiable, Codable, Equatable {
     var key: String
     var modifiers: [KeyModifier]
     var sfSymbol: String?
+    var kind: Kind = .shortcut
+
+    enum Kind: String, Codable, Hashable {
+        case shortcut
+        case modifierHold
+    }
 
     enum KeyModifier: String, Codable, CaseIterable, Identifiable {
         case cmd = "cmd"
@@ -30,15 +36,70 @@ struct ShortcutItem: Identifiable, Codable, Equatable {
             case .ctrl: return "ctrlKey"
             }
         }
+        // DOM KeyboardEvent の key / code / legacy keyCode
+        var keyName: String {
+            switch self {
+            case .cmd: return "Meta"
+            case .shift: return "Shift"
+            case .option: return "Alt"
+            case .ctrl: return "Control"
+            }
+        }
+        var jsCode: String {
+            switch self {
+            case .cmd: return "MetaLeft"
+            case .shift: return "ShiftLeft"
+            case .option: return "AltLeft"
+            case .ctrl: return "ControlLeft"
+            }
+        }
+        var legacyKeyCode: Int {
+            switch self {
+            case .cmd: return 91
+            case .shift: return 16
+            case .option: return 18
+            case .ctrl: return 17
+            }
+        }
+    }
+
+    // kind を decodeIfPresent で読むため手動実装（既存データとの後方互換）
+    enum CodingKeys: String, CodingKey {
+        case id, label, key, modifiers, sfSymbol, kind
+    }
+
+    init(id: UUID = UUID(), label: String, key: String, modifiers: [KeyModifier],
+         sfSymbol: String? = nil, kind: Kind = .shortcut) {
+        self.id = id
+        self.label = label
+        self.key = key
+        self.modifiers = modifiers
+        self.sfSymbol = sfSymbol
+        self.kind = kind
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(UUID.self, forKey: .id)
+        label = try c.decode(String.self, forKey: .label)
+        key = try c.decode(String.self, forKey: .key)
+        modifiers = try c.decode([KeyModifier].self, forKey: .modifiers)
+        sfSymbol = try c.decodeIfPresent(String.self, forKey: .sfSymbol)
+        kind = try c.decodeIfPresent(Kind.self, forKey: .kind) ?? .shortcut
     }
 
     var displayLabel: String {
+        if kind == .modifierHold {
+            return modifiers.map { $0.displayName }.joined()
+        }
         let modStr = modifiers.map { $0.displayName }.joined()
         return "\(modStr)\(keyGlyph)"
     }
 
-    // 特殊キーは記号で見やすく表示する（例: backspace → ⌫、f1 → F1）。
     var keyGlyph: String {
+        if kind == .modifierHold {
+            return modifiers.first?.displayName ?? "?"
+        }
         switch key.lowercased() {
         case "backspace": return "⌫"
         case "delete": return "⌦"
@@ -155,5 +216,7 @@ extension ShortcutItem {
         ShortcutItem(label: "やり直す", key: "z", modifiers: [.cmd, .shift], sfSymbol: "arrow.uturn.forward"),
         // レイヤーのコピー/ペーストは合成イベントでは成立しないため、初期プリセットから除外。
         // （テキストは可能。レイヤーは物理キーボードか長押し右クリック→指タップが必要）
+        ShortcutItem(label: "Option", key: "", modifiers: [.option], kind: .modifierHold),
+        ShortcutItem(label: "Shift", key: "", modifiers: [.shift], kind: .modifierHold),
     ]
 }
