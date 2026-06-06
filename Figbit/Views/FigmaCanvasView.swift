@@ -15,7 +15,7 @@ struct FigmaCanvasView: UIViewRepresentable {
     @Environment(ShortcutSyncManager.self) private var shortcutSync
 
     func makeUIView(context: Context) -> UIView {
-        let container = UIView()
+        let container = ZoomingContainerView()
         container.backgroundColor = .white
         return container
     }
@@ -23,17 +23,15 @@ struct FigmaCanvasView: UIViewRepresentable {
     func updateUIView(_ container: UIView, context: Context) {
         guard let tab = tab ?? tabManager.activeTab else { return }
         let webView = tab.webView
+        let zoomContainer = container as? ZoomingContainerView
 
         if webView.superview !== container {
             container.subviews.forEach { $0.removeFromSuperview() }
+            // transform でスケールするため Auto Layout ではなく手動レイアウト
+            // （ZoomingContainerView.layoutSubviews）で frame を管理する。
+            webView.translatesAutoresizingMaskIntoConstraints = true
             container.addSubview(webView)
-            webView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                webView.topAnchor.constraint(equalTo: container.topAnchor),
-                webView.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-                webView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-                webView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            ])
+            zoomContainer?.managedWebView = webView
             webView.navigationDelegate = context.coordinator
             webView.uiDelegate = context.coordinator
             context.coordinator.mainWebView = webView
@@ -47,6 +45,10 @@ struct FigmaCanvasView: UIViewRepresentable {
         }
 
         webView.pencilMode = shortcutSync.pencilMode
+        // 表示倍率。pageZoom はレイアウト幅を広げず余白が出るため、webView を 1/zoom の
+        // 論理サイズでレイアウトして transform で zoom 倍に拡縮し、コンテナにぴったり収める。
+        zoomContainer?.zoom = CGFloat(shortcutSync.pageZoom)
+        zoomContainer?.setNeedsLayout()
         // ページ読み込み完了通知のクロージャを毎回更新する（クロージャが参照するobjectが変わり得るため）
         context.coordinator.onPageLoad = onPageLoad
         context.coordinator.onOpenFile = onOpenFile
@@ -221,6 +223,32 @@ struct FigmaCanvasView: UIViewRepresentable {
                 self?.popupVC = nil
             }
         }
+    }
+}
+
+// MARK: - Zooming Container
+
+// WKWebView.pageZoom はiOSではラスタをスケールするだけでレイアウト幅を広げず、
+// zoom != 1 のとき右側に白い余白が出る。そこで webView を 1/zoom の論理サイズで
+// レイアウトし transform で zoom 倍に拡縮することで、コンテナにぴったり収める。
+// タッチ座標（location(in: webView)）は transform を考慮した bounds 基準なので正しいまま。
+private final class ZoomingContainerView: UIView {
+    weak var managedWebView: UIView?
+    var zoom: CGFloat = 1.0 {
+        didSet { if zoom != oldValue { setNeedsLayout() } }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard let v = managedWebView else { return }
+        let z = max(0.01, zoom)
+        v.transform = .identity
+        v.bounds = CGRect(
+            origin: .zero,
+            size: CGSize(width: bounds.width / z, height: bounds.height / z)
+        )
+        v.transform = CGAffineTransform(scaleX: z, y: z)
+        v.center = CGPoint(x: bounds.midX, y: bounds.midY)
     }
 }
 

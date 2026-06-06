@@ -21,6 +21,18 @@ class ShortcutSyncManager {
     var shortcuts: [ShortcutItem] = ShortcutItem.defaults
     var pencilMode: PencilMode = .figurative
 
+    // FigmaのWebView全体の表示倍率（pageZoom）。1.0＝等倍。小さなFigma UIを拡大する用途。
+    // クランプは setPageZoom(_:) で行う。@Observable プロパティに didSet で自己代入すると
+    // セッターが再帰して無限ループ＝フリーズするため、didSet は使わない。
+    static let zoomRange: ClosedRange<Double> = 0.5...3.0
+    var pageZoom: Double = 1.0
+
+    // 範囲内へ丸めてから保存する。UIのBindingからはこちらを呼ぶ。
+    func setPageZoom(_ value: Double) {
+        pageZoom = min(Self.zoomRange.upperBound, max(Self.zoomRange.lowerBound, value))
+        save()
+    }
+
     // Apple Pencilのダブルタップで交互に切り替える2つのツール（MenuCommand.id を保存）。
     var pencilDoubleTapToolA: String = MenuCommandCatalog.tools.first { $0.title == "選択" }?.id ?? ""
     var pencilDoubleTapToolB: String = MenuCommandCatalog.tools.first { $0.title == "ペン" }?.id ?? ""
@@ -47,6 +59,7 @@ class ShortcutSyncManager {
 
     private let shortcutsKey = "figbit.shortcuts.v1"
     private let pencilModeKey = "figbit.pencilMode.v1"
+    private let pageZoomKey = "figbit.pageZoom.v1"
     private let pencilTapAKey = "figbit.pencilTap.a.v1"
     private let pencilTapBKey = "figbit.pencilTap.b.v1"
     // 「どこに保存するか」の設定自体は常にローカルに置く（同期先に置くと鶏卵問題になるため）。
@@ -78,11 +91,13 @@ class ShortcutSyncManager {
         case .local:
             local.set(data, forKey: shortcutsKey)
             local.set(pencilMode.rawValue, forKey: pencilModeKey)
+            local.set(pageZoom, forKey: pageZoomKey)
             local.set(pencilDoubleTapToolA, forKey: pencilTapAKey)
             local.set(pencilDoubleTapToolB, forKey: pencilTapBKey)
         case .iCloud:
             cloud.set(data, forKey: shortcutsKey)
             cloud.set(pencilMode.rawValue, forKey: pencilModeKey)
+            cloud.set(pageZoom, forKey: pageZoomKey)
             cloud.set(pencilDoubleTapToolA, forKey: pencilTapAKey)
             cloud.set(pencilDoubleTapToolB, forKey: pencilTapBKey)
             cloud.synchronize()
@@ -94,23 +109,30 @@ class ShortcutSyncManager {
         let modeRaw: String?
         let tapA: String?
         let tapB: String?
+        let zoom: Double
         switch storageLocation {
         case .local:
             data = local.data(forKey: shortcutsKey)
             modeRaw = local.string(forKey: pencilModeKey)
             tapA = local.string(forKey: pencilTapAKey)
             tapB = local.string(forKey: pencilTapBKey)
+            zoom = local.double(forKey: pageZoomKey)
         case .iCloud:
             data = cloud.data(forKey: shortcutsKey)
             modeRaw = cloud.string(forKey: pencilModeKey)
             tapA = cloud.string(forKey: pencilTapAKey)
             tapB = cloud.string(forKey: pencilTapBKey)
+            zoom = cloud.double(forKey: pageZoomKey)
         }
         if let data, let items = try? JSONDecoder().decode([ShortcutItem].self, from: data) {
             shortcuts = items
         }
         if let modeRaw, let mode = PencilMode(rawValue: modeRaw) {
             pencilMode = mode
+        }
+        // 0 は未保存（既定値）を意味する。保存済みのときだけ範囲内へ丸めて反映する。
+        if zoom > 0 {
+            pageZoom = min(Self.zoomRange.upperBound, max(Self.zoomRange.lowerBound, zoom))
         }
         if let tapA, !tapA.isEmpty { pencilDoubleTapToolA = tapA }
         if let tapB, !tapB.isEmpty { pencilDoubleTapToolB = tapB }

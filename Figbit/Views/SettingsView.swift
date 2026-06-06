@@ -1,4 +1,5 @@
 import SwiftUI
+import WebKit
 
 struct SettingsView: View {
     @Environment(ShortcutSyncManager.self) private var shortcutSync
@@ -15,6 +16,7 @@ struct SettingsView: View {
             List {
                 pencilModeSection
                 pencilDoubleTapSection
+                zoomSection
                 shortcutSection
                 tabSection
                 accountSection
@@ -91,6 +93,29 @@ struct SettingsView: View {
             Text("Pencilダブルタップ")
         } footer: {
             Text("Apple Pencilを2回タップするたびに、指定した2つのツールを交互に切り替えます。")
+        }
+    }
+
+    private var zoomSection: some View {
+        Section {
+            Stepper(value: Binding(
+                get: { shortcutSync.pageZoom },
+                // 倍率は ZoomingContainerView が shortcutSync.pageZoom を監視して
+                // updateUIView 経由で反映するため、ここでは値の保存だけ行う。
+                set: { shortcutSync.setPageZoom($0) }
+            ), in: ShortcutSyncManager.zoomRange, step: 0.1) {
+                HStack {
+                    Text("倍率")
+                    Spacer()
+                    Text("\(Int((shortcutSync.pageZoom * 100).rounded()))%")
+                        .foregroundStyle(.secondary)
+                        .fontDesign(.monospaced)
+                }
+            }
+        } header: {
+            Text("表示倍率")
+        } footer: {
+            Text("Figmaの画面全体の拡大率を変更します。小さなUIを見やすく拡大できます。")
         }
     }
 

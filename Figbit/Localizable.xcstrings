@@ -1,1887 +1,1901 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "": {},
-    "「%@」に一致するシンボルがありません": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No symbols match “%@”"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "「%@」に一致するシンボルがありません" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No symbols match “%@”"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "「%@」に一致するシンボルがありません"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」に一致するシンボルがありません"
           }
         }
       }
     },
-    "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "“On this device” stores settings only on this iPad. “Sync to iCloud” keeps them in sync across your iPads (requires iCloud to be enabled)."
+    "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“On this device” stores settings only on this iPad. “Sync to iCloud” keeps them in sync across your iPads (requires iCloud to be enabled)."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「この端末に保存」はこのiPad内にのみ保存します。「iCloudに同期」は複数のiPad間で自動同期します（iCloudの有効化が必要です）。"
           }
         }
       }
+    },
+    "%lld%%" : {
+
     },
-    "%lld日": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld days"
+    "%lld日" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld days"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld日"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld日"
           }
         }
       }
     },
-    "100%にズーム": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoom to 100%"
+    "100%にズーム" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom to 100%"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "100%にズーム"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%にズーム"
           }
         }
       }
     },
-    "Apple Pencil → カーソル操作 / 指 → パン・ズーム": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple Pencil → cursor · Finger → pan & zoom"
+    "Apple Pencil → カーソル操作 / 指 → パン・ズーム" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Pencil → cursor · Finger → pan & zoom"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple Pencil → カーソル操作 / 指 → パン・ズーム"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Pencil → カーソル操作 / 指 → パン・ズーム"
           }
         }
       }
     },
-    "Apple Pencilと指タッチのキャンバス操作への割り当てを設定します。": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Configure how Apple Pencil and finger touches map to canvas actions."
+    "Apple Pencilと指タッチのキャンバス操作への割り当てを設定します。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure how Apple Pencil and finger touches map to canvas actions."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple Pencilと指タッチのキャンバス操作への割り当てを設定します。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Pencilと指タッチのキャンバス操作への割り当てを設定します。"
           }
         }
       }
     },
-    "Figmaアカウント": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Figma Account"
+    "Apple Pencilを2回タップするたびに、指定した2つのツールを交互に切り替えます。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each double-tap of Apple Pencil toggles between the two tools you choose."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Figmaアカウント"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Pencilを2回タップするたびに、指定した2つのツールを交互に切り替えます。"
           }
         }
       }
     },
-    "Figmaアカウントにログインしてください": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Please sign in to your Figma account"
+    "Figmaアカウント" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Figma Account"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Figmaアカウントにログインしてください"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Figmaアカウント"
           }
         }
       }
     },
-    "Figmaにログイン": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign in to Figma"
+    "Figmaアカウントにログインしてください" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please sign in to your Figma account"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Figmaにログイン"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Figmaアカウントにログインしてください"
           }
         }
       }
     },
-    "Figmaのメニューから選択": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose from Figma Menu"
+    "Figmaにログイン" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in to Figma"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Figmaのメニューから選択"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Figmaにログイン"
           }
         }
       }
     },
-    "FigurativeMode": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple Pencil Mode"
+    "Figmaのメニューから選択" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose from Figma Menu"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple Pencilモード"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Figmaのメニューから選択"
           }
         }
       }
     },
-    "iCloudに同期": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sync to iCloud"
+    "Figmaの画面全体の拡大率を変更します。小さなUIを見やすく拡大できます。" : {
+
+    },
+    "FigurativeMode" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Pencil Mode"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloudに同期"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Pencilモード"
           }
         }
       }
     },
-    "PencilMode": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Input Mode"
+    "iCloudに同期" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sync to iCloud"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "入力モード"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloudに同期"
           }
         }
       }
     },
-    "ShortcutPanel": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Shortcut Panel"
+    "PencilMode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input Mode"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ショートカットパネル"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力モード"
           }
         }
       }
     },
-    "TouchCursorMode": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Touch Mode"
+    "Pencilダブルタップ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Pencil Double-Tap"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "タッチモード"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pencilダブルタップ"
           }
         }
       }
     },
-    "UIの表示/非表示": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show/Hide UI"
+    "ShortcutPanel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shortcut Panel"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "UIの表示/非表示"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカットパネル"
           }
         }
       }
     },
-    "アイコンを選択": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose Icon"
+    "TouchCursorMode" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch Mode"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アイコンを選択"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タッチモード"
           }
         }
       }
     },
-    "アイコンを選択（省略可）": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose an icon (optional)"
+    "UIの表示/非表示" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show/Hide UI"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アイコンを選択（省略可）"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "UIの表示/非表示"
           }
         }
       }
     },
-    "アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restores the tabs you had open when the app restarts. Tabs that haven't been opened within the set period are closed automatically."
+    "アイコンを選択" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Icon"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アイコンを選択"
           }
         }
       }
     },
-    "オブジェクト": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Object"
+    "アイコンを選択（省略可）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose an icon (optional)"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "オブジェクト"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アイコンを選択（省略可）"
           }
         }
       }
     },
-    "カスタマイズしたショートカットはすべて削除されます。": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All customized shortcuts will be removed."
+    "アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restores the tabs you had open when the app restarts. Tabs that haven't been opened within the set period are closed automatically."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "カスタマイズしたショートカットはすべて削除されます。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリ再起動時に、前回開いていたタブを復元します。最後に開いてから設定した期間が過ぎたタブは自動的に閉じます。"
           }
         }
       }
     },
-    "キー": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Key"
+    "オブジェクト" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Object"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "キー"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オブジェクト"
           }
         }
       }
     },
-    "キー（例: f, r, z, 1）": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Key (e.g. f, r, z, 1)"
+    "カスタマイズしたショートカットはすべて削除されます。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All customized shortcuts will be removed."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "キー（例: f, r, z, 1）"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カスタマイズしたショートカットはすべて削除されます。"
           }
         }
       }
     },
-    "キャンセル": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
+    "キー" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Key"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "キャンセル"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キー"
           }
         }
       }
     },
-    "クリア": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear"
+    "キー（例: f, r, z, 1）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Key (e.g. f, r, z, 1)"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "クリア"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キー（例: f, r, z, 1）"
           }
         }
       }
     },
-    "グループ化": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Group"
+    "キャンセル" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "グループ化"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キャンセル"
           }
         }
       }
     },
-    "グループ解除": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ungroup"
+    "クリア" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "グループ解除"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "クリア"
           }
         }
       }
     },
-    "この端末に保存": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "On this device"
+    "グループ化" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "この端末に保存"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "グループ化"
           }
         }
       }
     },
-    "コピー": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy"
+    "グループ解除" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ungroup"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "コピー"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "グループ解除"
           }
         }
       }
     },
-    "コメント": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Comment"
+    "この端末に保存" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On this device"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "コメント"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この端末に保存"
           }
         }
       }
     },
-    "コンポーネント": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Component"
+    "コピー" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "コンポーネント"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピー"
           }
         }
       }
     },
-    "コンポーネント作成": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create Component"
+    "コメント" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "コンポーネント作成"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コメント"
           }
         }
       }
     },
-    "ショートカット": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Shortcuts"
+    "コンポーネント" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Component"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ショートカット"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コンポーネント"
           }
         }
       }
     },
-    "ショートカットを追加": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add Shortcut"
+    "コンポーネント作成" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create Component"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ショートカットを追加"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コンポーネント作成"
           }
         }
       }
     },
-    "ショートカット編集": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit Shortcut"
+    "ショートカット" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shortcuts"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ショートカット編集"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカット"
           }
         }
       }
     },
-    "ショートカット追加": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add Shortcut"
+    "ショートカットを追加" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Shortcut"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ショートカット追加"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカットを追加"
           }
         }
       }
     },
-    "シンボルを検索": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search symbols"
+    "ショートカット編集" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Shortcut"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "シンボルを検索"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカット編集"
           }
         }
       }
     },
-    "スケール": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Scale"
+    "ショートカット追加" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Shortcut"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "スケール"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカット追加"
           }
         }
       }
     },
-    "すべて選択": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select All"
+    "シンボルを検索" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search symbols"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "すべて選択"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "シンボルを検索"
           }
         }
       }
     },
-    "セッションをクリア": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear Session"
+    "スケール" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scale"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "セッションをクリア"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スケール"
           }
         }
       }
     },
-    "タブ": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tabs"
+    "すべて選択" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select All"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "タブ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべて選択"
           }
         }
       }
     },
-    "タブの保持期間": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep tabs for"
+    "セッションをクリア" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear Session"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "タブの保持期間"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "セッションをクリア"
           }
         }
       }
     },
-    "ツール": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tools"
+    "タブ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tabs"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ツール"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タブ"
           }
         }
       }
     },
-    "テキスト": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Text"
+    "タブの保持期間" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep tabs for"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "テキスト"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タブの保持期間"
           }
         }
       }
     },
-    "デフォルトに戻しますか？": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset to defaults?"
+    "ツール" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "デフォルトに戻しますか？"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ツール"
           }
         }
       }
     },
-    "なし": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "None"
+    "ツール1" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tool 1"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "なし"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ツール1"
           }
         }
       }
     },
-    "フィット": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fit"
+    "ツール2" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tool 2"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "フィット"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ツール2"
           }
         }
       }
     },
-    "ブラウザのセキュリティ制約により、ボタンからの⌘C/⌘V/⌘Xではレイヤーをコピー/切り取り/貼り付けできません（テキストの操作は可能です）。レイヤーは物理キーボードの⌘C/⌘V、または長押し（右クリック）→メニューを指でタップしてください。": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Due to browser security restrictions, ⌘C/⌘V/⌘X from a button can’t copy/cut/paste layers (text editing still works). For layers, use a hardware keyboard’s ⌘C/⌘V, or long-press (right-click) → tap the menu with your finger."
+    "テキスト" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ブラウザのセキュリティ制約により、ボタンからの⌘C/⌘V/⌘Xではレイヤーをコピー/切り取り/貼り付けできません（テキストの操作は可能です）。レイヤーは物理キーボードの⌘C/⌘V、または長押し（右クリック）→メニューを指でタップしてください。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "テキスト"
           }
         }
       }
     },
-    "フラット化": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Flatten"
+    "デフォルトに戻しますか？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset to defaults?"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "フラット化"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デフォルトに戻しますか？"
           }
         }
       }
     },
-    "フレーム": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Frame"
+    "なし" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "フレーム"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "なし"
           }
         }
       }
     },
-    "フレームに入れる": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Frame Selection"
+    "フィット" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fit"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "フレームに入れる"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フィット"
           }
         }
       }
     },
-    "プレビュー": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preview"
+    "ブラウザのセキュリティ制約により、ボタンからの⌘C/⌘V/⌘Xではレイヤーをコピー/切り取り/貼り付けできません（テキストの操作は可能です）。レイヤーは物理キーボードの⌘C/⌘V、または長押し（右クリック）→メニューを指でタップしてください。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due to browser security restrictions, ⌘C/⌘V/⌘X from a button can’t copy/cut/paste layers (text editing still works). For layers, use a hardware keyboard’s ⌘C/⌘V, or long-press (right-click) → tap the menu with your finger."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "プレビュー"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ブラウザのセキュリティ制約により、ボタンからの⌘C/⌘V/⌘Xではレイヤーをコピー/切り取り/貼り付けできません（テキストの操作は可能です）。レイヤーは物理キーボードの⌘C/⌘V、または長押し（右クリック）→メニューを指でタップしてください。"
           }
         }
       }
     },
-    "ペン": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pen"
+    "フラット化" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flatten"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ペン"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フラット化"
           }
         }
       }
     },
-    "ボタン": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Button"
+    "フレーム" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frame"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ボタン"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フレーム"
           }
         }
       }
     },
-    "やり直す": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Redo"
+    "フレームに入れる" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frame Selection"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "やり直す"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フレームに入れる"
           }
         }
       }
     },
-    "ライン": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Line"
+    "プレビュー" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ライン"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プレビュー"
           }
         }
       }
     },
-    "ラベル（例: コンポーネント）": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Label (e.g. Component)"
+    "ペン" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pen"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ラベル（例: コンポーネント）"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ペン"
           }
         }
       }
     },
-    "リセット": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset"
+    "ボタン" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Button"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "リセット"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ボタン"
           }
         }
       }
     },
-    "レイヤーのコピー/ペーストはパネルから動作しません": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Layer copy/paste doesn’t work from the panel"
+    "やり直す" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redo"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "レイヤーのコピー/ペーストはパネルから動作しません"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "やり直す"
           }
         }
       }
     },
-    "ログイン": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Log In"
+    "ライン" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ログイン"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ライン"
           }
         }
       }
     },
-    "ログインが必要です": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign-in required"
+    "ラベル（例: コンポーネント）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label (e.g. Component)"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ログインが必要です"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ラベル（例: コンポーネント）"
           }
         }
       }
     },
-    "ログイン済み": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Signed in"
+    "リセット" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ログイン済み"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リセット"
           }
         }
       }
     },
-    "ロック/解除": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lock/Unlock"
+    "レイヤーのコピー/ペーストはパネルから動作しません" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layer copy/paste doesn’t work from the panel"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ロック/解除"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レイヤーのコピー/ペーストはパネルから動作しません"
           }
         }
       }
     },
-    "上下反転": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Flip Vertical"
+    "ログイン" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log In"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "上下反転"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン"
           }
         }
       }
     },
-    "下線": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Underline"
+    "ログインが必要です" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign-in required"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下線"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログインが必要です"
           }
         }
       }
     },
-    "両端揃え": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Justify"
+    "ログイン済み" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signed in"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "両端揃え"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン済み"
           }
         }
       }
     },
-    "中央揃え": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Align Center"
+    "ロック/解除" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lock/Unlock"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "中央揃え"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロック/解除"
           }
         }
       }
     },
-    "保存": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save"
+    "上下反転" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flip Vertical"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保存"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上下反転"
           }
         }
       }
     },
-    "保存先": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Storage"
+    "下線" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Underline"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "保存先"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下線"
           }
         }
       }
     },
-    "修飾キー": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modifiers"
+    "両端揃え" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Justify"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "修飾キー"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "両端揃え"
           }
         }
       }
     },
-    "元に戻す": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Undo"
+    "中央揃え" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Align Center"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "元に戻す"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中央揃え"
           }
         }
       }
     },
-    "最前面へ": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bring to Front"
+    "保存" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最前面へ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存"
           }
         }
       }
     },
-    "最背面へ": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Send to Back"
+    "保存先" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Storage"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最背面へ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存先"
           }
         }
       }
     },
-    "切り取り": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cut"
+    "修飾キー" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifiers"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "切り取り"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修飾キー"
           }
         }
       }
     },
-    "削除": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete"
+    "倍率" : {
+
+    },
+    "元に戻す" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "削除"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "元に戻す"
           }
         }
       }
     },
-    "削除やグループ化など、キーボードショートカットがわからない機能もここから選べばラベル・キー・アイコンが自動で埋まります。": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "For functions like Delete or Group whose keyboard shortcut you don't know, pick one here and the label, key, and icon are filled in automatically."
+    "最前面へ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bring to Front"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "削除やグループ化など、キーボードショートカットがわからない機能もここから選べばラベル・キー・アイコンが自動で埋まります。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最前面へ"
           }
         }
       }
     },
-    "前回のタブを復元": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restore previous tabs"
+    "最背面へ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send to Back"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "前回のタブを復元"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最背面へ"
           }
         }
       }
     },
-    "前面へ": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bring Forward"
+    "切り取り" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cut"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "前面へ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切り取り"
           }
         }
       }
     },
-    "取り消す": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Undo"
+    "削除" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "取り消す"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除"
           }
         }
       }
     },
-    "右揃え": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Align Right"
+    "削除やグループ化など、キーボードショートカットがわからない機能もここから選べばラベル・キー・アイコンが自動で埋まります。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For functions like Delete or Group whose keyboard shortcut you don't know, pick one here and the label, key, and icon are filled in automatically."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "右揃え"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除やグループ化など、キーボードショートカットがわからない機能もここから選べばラベル・キー・アイコンが自動で埋まります。"
           }
         }
       }
     },
-    "太字": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bold"
+    "前回のタブを復元" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore previous tabs"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "太字"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前回のタブを復元"
           }
         }
       }
     },
-    "完了": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Done"
+    "前面へ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bring Forward"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "完了"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前面へ"
           }
         }
       }
     },
-    "左右反転": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Flip Horizontal"
+    "取り消す" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "左右反転"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取り消す"
           }
         }
       }
     },
-    "左揃え": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Align Left"
+    "右揃え" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Align Right"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "左揃え"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "右揃え"
           }
         }
       }
     },
-    "手のひら": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hand"
+    "太字" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bold"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "手のひら"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太字"
           }
         }
       }
     },
-    "拡大": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoom In"
+    "完了" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拡大"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了"
           }
         }
       }
     },
-    "拡大鏡": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoom Tool"
+    "左右反転" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flip Horizontal"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拡大鏡"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "左右反転"
           }
         }
       }
     },
-    "指 → カーソル操作（Apple Pencilなし環境向け）": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Finger → cursor (for setups without Apple Pencil)"
+    "左揃え" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Align Left"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "指 → カーソル操作（Apple Pencilなし環境向け）"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "左揃え"
           }
         }
       }
     },
-    "斜体": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Italic"
+    "手のひら" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hand"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "斜体"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手のひら"
           }
         }
       }
     },
-    "楕円": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ellipse"
+    "拡大" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom In"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "楕円"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拡大"
           }
         }
       }
     },
-    "無期限": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unlimited"
+    "拡大鏡" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom Tool"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無期限"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拡大鏡"
           }
         }
       }
     },
-    "特殊キー": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Special Key"
+    "指 → カーソル操作（Apple Pencilなし環境向け）" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finger → cursor (for setups without Apple Pencil)"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "特殊キー"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指 → カーソル操作（Apple Pencilなし環境向け）"
           }
         }
       }
     },
-    "画面に合わせる": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoom to Fit"
+    "斜体" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Italic"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "画面に合わせる"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "斜体"
           }
         }
       }
     },
-    "矢印": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Arrow"
+    "楕円" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ellipse"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "矢印"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "楕円"
           }
         }
       }
     },
-    "矩形": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rectangle"
+    "無期限" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "矩形"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無期限"
           }
         }
       }
     },
-    "編集": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit"
+    "特殊キー" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Special Key"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "編集"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "特殊キー"
           }
         }
       }
     },
-    "縮小": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoom Out"
+    "画面に合わせる" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom to Fit"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "縮小"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画面に合わせる"
           }
         }
       }
     },
-    "背面へ": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Send Backward"
+    "矢印" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrow"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "背面へ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "矢印"
           }
         }
       }
     },
-    "表示": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "View"
+    "矩形" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rectangle"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "表示"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "矩形"
           }
         }
       }
     },
-    "表示/非表示": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show/Hide"
+    "編集" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "表示/非表示"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編集"
           }
         }
       }
     },
-    "複製": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Duplicate"
+    "縮小" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom Out"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "複製"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "縮小"
           }
         }
       }
     },
-    "見つかりません": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Not Found"
+    "背面へ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send Backward"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "見つかりません"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "背面へ"
           }
         }
       }
     },
-    "設定": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings"
+    "表示" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示"
           }
         }
       }
     },
-    "貼り付け": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Paste"
+    "表示/非表示" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show/Hide"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "貼り付け"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示/非表示"
           }
         }
       }
+    },
+    "表示倍率" : {
+
     },
-    "追加": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add"
+    "複製" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicate"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "追加"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製"
           }
         }
       }
     },
-    "通常キーは直接入力、Backspaceやファンクションキーなどは「特殊キー」から選んでください。キーを指定しない場合、修飾キーのみのホールドボタン（押している間だけ修飾キーが有効）になります。": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Type regular keys directly; for Backspace, function keys, and the like choose from “Special Key.” If you leave the key empty, the button becomes a modifier-only hold button (the modifier is active only while held)."
+    "見つかりません" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Found"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通常キーは直接入力、Backspaceやファンクションキーなどは「特殊キー」から選んでください。キーを指定しない場合、修飾キーのみのホールドボタン（押している間だけ修飾キーが有効）になります。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "見つかりません"
           }
         }
       }
     },
-    "選択": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select"
+    "設定" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選択"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
           }
         }
       }
     },
-    "選択を解除": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deselect"
+    "貼り付け" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選択を解除"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "貼り付け"
           }
         }
       }
     },
-    "選択範囲にズーム": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoom to Selection"
+    "追加" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選択範囲にズーム"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追加"
           }
         }
       }
     },
-    "鉛筆": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pencil"
+    "通常キーは直接入力、Backspaceやファンクションキーなどは「特殊キー」から選んでください。キーを指定しない場合、修飾キーのみのホールドボタン（押している間だけ修飾キーが有効）になります。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type regular keys directly; for Backspace, function keys, and the like choose from “Special Key.” If you leave the key empty, the button becomes a modifier-only hold button (the modifier is active only while held)."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "鉛筆"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通常キーは直接入力、Backspaceやファンクションキーなどは「特殊キー」から選んでください。キーを指定しない場合、修飾キーのみのホールドボタン（押している間だけ修飾キーが有効）になります。"
           }
         }
       }
     },
-    "Pencilダブルタップ": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple Pencil Double-Tap"
+    "選択" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pencilダブルタップ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択"
           }
         }
       }
     },
-    "ツール1": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tool 1"
+    "選択を解除" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deselect"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ツール1"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択を解除"
           }
         }
       }
     },
-    "ツール2": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tool 2"
+    "選択範囲にズーム" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom to Selection"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ツール2"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択範囲にズーム"
           }
         }
       }
     },
-    "Apple Pencilを2回タップするたびに、指定した2つのツールを交互に切り替えます。": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Each double-tap of Apple Pencil toggles between the two tools you choose."
+    "鉛筆" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pencil"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple Pencilを2回タップするたびに、指定した2つのツールを交互に切り替えます。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鉛筆"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
