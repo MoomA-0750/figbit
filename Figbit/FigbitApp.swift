@@ -7,6 +7,11 @@ struct FigbitApp: App {
     @State private var menuRouter = MenuRouter()
     @State private var figmaAPI = FigmaAPIManager()
 
+    init() {
+        // 端末フォントをFigmaへ供給する橋を初期化する（CoreTextでフォントを事前列挙）。
+        FontHelper.shared.start()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()

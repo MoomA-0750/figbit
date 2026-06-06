@@ -44,6 +44,8 @@ struct FigmaCanvasView: UIViewRepresentable {
             if onOpenFile != nil {
                 context.coordinator.installHomeBridge(on: webView)
             }
+            // 【診断用・一時的】フォントヘルパー到達確認の結果を受けるハンドラ。
+            context.coordinator.installFontProbe(on: webView)
         }
 
         webView.pencilMode = shortcutSync.pencilMode
@@ -70,6 +72,8 @@ struct FigmaCanvasView: UIViewRepresentable {
         private var isPoppingHomeFile = false
         // ホーム用のネイティブ橋（メッセージハンドラ）を二重登録しないためのフラグ。
         private var didInstallHomeBridge = false
+        // 【診断用・一時的】フォント到達確認ハンドラの二重登録防止フラグ。
+        private var didInstallFontProbe = false
 
         init(authManager: AuthManager) {
             self.authManager = authManager
@@ -85,7 +89,20 @@ struct FigmaCanvasView: UIViewRepresentable {
             ucc.add(self, name: "figbitOpenFile")
         }
 
+        // 【診断用・一時的】フォントヘルパー到達確認の結果ハンドラを登録する。
+        func installFontProbe(on webView: WKWebView) {
+            guard !didInstallFontProbe else { return }
+            didInstallFontProbe = true
+            let ucc = webView.configuration.userContentController
+            ucc.removeScriptMessageHandler(forName: "figbitFontProbe")
+            ucc.add(self, name: "figbitFontProbe")
+        }
+
         func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+            if message.name == "figbitFontProbe" {
+                print("[FontHelper] page-probe: \(message.body)")
+                return
+            }
             guard message.name == "figbitOpenFile",
                   let str = message.body as? String,
                   let url = URL(string: str),

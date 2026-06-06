@@ -34,6 +34,20 @@ class FigmaTab: Identifiable {
             config.userContentController.addUserScript(script)
         }
 
+        // 端末フォントをFigmaへ供給する橋。documentStartで maxTouchPoints を 0 に偽装し
+        // （0でないとFigmaはフォントヘルパーを探さない）、figmadaemon宛の fetch/XHR を横取りして
+        // ネイティブ（CoreText）のデータで応答する。Figmaバンドルより先に当てる必要がある。
+        let fontBridge = WKUserScript(
+            source: FigmaTab.fontBridgeScript,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
+        config.userContentController.addUserScript(fontBridge)
+        // JS から端末フォントデータを取得するための応答付きハンドラ（page world）。
+        config.userContentController.addScriptMessageHandler(
+            FontHelper.shared, contentWorld: .page, name: "figbitFontHelper"
+        )
+
         let webView = PencilAwareWebView(frame: .zero, configuration: config)
         webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15"
         webView.allowsBackForwardNavigationGestures = false
@@ -95,6 +109,118 @@ class FigmaTab: Identifiable {
         e.stopImmediatePropagation();
         try{ window.webkit.messageHandlers.figbitOpenFile.postMessage(href); }catch(err){}
       }, true);
+    })();
+    """
+
+    // 端末フォントをFigmaへ供給する橋。
+    // 1) maxTouchPoints を 0 に偽装（0でないとFigmaはフォントヘルパーを探さない）。
+    // 2) figmadaemon.com 宛の fetch / XMLHttpRequest を横取りし、/figma/version・/figma/font-files・
+    //    /figma/font-file をネイティブ（figbitFontHelper ハンドラ＝CoreText）の応答で満たす。
+    //    それ以外のエンドポイントは素通し（失敗してよい）。
+    // page world で動かし、同じworldに登録した応答付きハンドラを await で呼ぶ。
+    static let fontBridgeScript = """
+    (function(){
+      if (window.__figbitFontBridge) return;
+      window.__figbitFontBridge = true;
+
+      try { Object.defineProperty(navigator, 'maxTouchPoints', { get: function(){ return 0; }, configurable: true }); } catch(e){}
+      try { delete window.ontouchstart; } catch(e){}
+
+      function log(m){ try{ window.webkit.messageHandlers.figbitFontProbe.postMessage(m);}catch(e){} }
+      function isDaemon(u){
+        try { return /(^|\\.)figmadaemon\\.com$/.test(new URL(String(u), location.href).hostname); }
+        catch(e){ return false; }
+      }
+      function call(op, file){
+        return window.webkit.messageHandlers.figbitFontHelper.postMessage(file != null ? {op:op, file:file} : {op:op});
+      }
+      function b64ToBytes(b64){
+        var bin = atob(b64), len = bin.length, bytes = new Uint8Array(len);
+        for (var i=0;i<len;i++) bytes[i] = bin.charCodeAt(i);
+        return bytes;
+      }
+      function handledPath(p){
+        return p === '/figma/version' || p === '/figma/font-files' || p === '/figma/font-file';
+      }
+
+      async function buildBody(path, url){
+        if (path === '/figma/version')    { return { json: await call('version') }; }
+        if (path === '/figma/font-files') { return { json: await call('font-files') }; }
+        var b64 = await call('font-file', url.searchParams.get('file'));
+        return { bytes: b64ToBytes(b64) };
+      }
+
+      // ---- fetch ----
+      var of = window.fetch;
+      window.fetch = function(input, init){
+        try {
+          var u = (typeof input === 'string') ? input : (input && input.url) || '';
+          if (isDaemon(u)) {
+            var url = new URL(String(u), location.href);
+            if (handledPath(url.pathname)) {
+              log('served fetch ' + url.pathname);
+              return buildBody(url.pathname, url).then(function(r){
+                if (r.json !== undefined) {
+                  return new Response(JSON.stringify(r.json), { status:200, headers:{'Content-Type':'application/json'} });
+                }
+                return new Response(r.bytes, { status:200, headers:{'Content-Type':'application/octet-stream'} });
+              }).catch(function(e){ return new Response('', { status:404 }); });
+            }
+          }
+        } catch(e){}
+        return of.apply(this, arguments);
+      };
+
+      // ---- XMLHttpRequest ----
+      function define(o,k,v){ try{ Object.defineProperty(o,k,{configurable:true,get:function(){return v;}}); }catch(e){} }
+      var xo = XMLHttpRequest.prototype.open;
+      var xs = XMLHttpRequest.prototype.send;
+      XMLHttpRequest.prototype.open = function(method, url){
+        try {
+          if (isDaemon(url)) {
+            var u = new URL(String(url), location.href);
+            if (handledPath(u.pathname)) this.__figbitDaemon = u;
+          }
+        } catch(e){}
+        return xo.apply(this, arguments);
+      };
+      XMLHttpRequest.prototype.send = function(body){
+        var u = this.__figbitDaemon;
+        if (!u) return xs.apply(this, arguments);
+        var xhr = this;
+        log('served xhr ' + u.pathname);
+        (async function(){
+          try {
+            var r = await buildBody(u.pathname, u);
+            var text, resp, ctype;
+            if (r.json !== undefined) {
+              text = JSON.stringify(r.json); ctype = 'application/json';
+              resp = (xhr.responseType === 'json') ? r.json : text;
+            } else {
+              text = ''; ctype = 'application/octet-stream';
+              resp = (xhr.responseType === 'arraybuffer') ? r.bytes.buffer : text;
+            }
+            define(xhr, 'readyState', 4);
+            define(xhr, 'status', 200);
+            define(xhr, 'statusText', 'OK');
+            define(xhr, 'responseText', text);
+            define(xhr, 'response', resp);
+            define(xhr, 'responseURL', u.href);
+            xhr.getResponseHeader = function(h){ return /content-type/i.test(h) ? ctype : null; };
+            xhr.getAllResponseHeaders = function(){ return 'content-type: ' + ctype + '\\r\\n'; };
+            if (typeof xhr.onreadystatechange === 'function') xhr.onreadystatechange();
+            xhr.dispatchEvent(new Event('readystatechange'));
+            if (typeof xhr.onload === 'function') xhr.onload();
+            xhr.dispatchEvent(new Event('load'));
+            xhr.dispatchEvent(new Event('loadend'));
+          } catch(e){
+            define(xhr, 'readyState', 4);
+            define(xhr, 'status', 0);
+            if (typeof xhr.onerror === 'function') xhr.onerror();
+            xhr.dispatchEvent(new Event('error'));
+          }
+        })();
+      };
     })();
     """
 
