@@ -1817,6 +1817,70 @@
           }
         }
       }
+    },
+    "Pencilダブルタップ": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Pencil Double-Tap"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencilダブルタップ"
+          }
+        }
+      }
+    },
+    "ツール1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tool 1"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ツール1"
+          }
+        }
+      }
+    },
+    "ツール2": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tool 2"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ツール2"
+          }
+        }
+      }
+    },
+    "Apple Pencilを2回タップするたびに、指定した2つのツールを交互に切り替えます。": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each double-tap of Apple Pencil toggles between the two tools you choose."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Pencilを2回タップするたびに、指定した2つのツールを交互に切り替えます。"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

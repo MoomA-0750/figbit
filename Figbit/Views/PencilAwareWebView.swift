@@ -468,14 +468,15 @@ extension PencilAwareWebView: UIPencilInteractionDelegate {
         notifyPencilAction()
     }
 
-    // 2nd gen Apple Pencil: ダブルタップで発火
+    // ダブルタップ（2nd gen / Pencil Pro 共通）: 指定2ツールの切り替えに使う。
     func pencilInteractionDidTap(_ interaction: UIPencilInteraction) {
-        notifyPencilAction()
+        NotificationCenter.default.post(name: .figbitPencilDoubleTap, object: nil)
     }
 }
 
 extension Notification.Name {
     static let figbitPencilAction = Notification.Name("figbit.pencilAction")
+    static let figbitPencilDoubleTap = Notification.Name("figbit.pencilDoubleTap")
 }
 
 // 修飾キー保持中だけWKWebViewの最前面に被さり、WebKitに一切touchを渡さず、

@@ -14,6 +14,7 @@ struct SettingsView: View {
         NavigationStack {
             List {
                 pencilModeSection
+                pencilDoubleTapSection
                 shortcutSection
                 tabSection
                 accountSection
@@ -73,6 +74,31 @@ struct SettingsView: View {
             Text("PencilMode")
         } footer: {
             Text("Apple Pencilと指タッチのキャンバス操作への割り当てを設定します。")
+        }
+    }
+
+    private var pencilDoubleTapSection: some View {
+        Section {
+            toolPicker("ツール1", selection: Binding(
+                get: { shortcutSync.pencilDoubleTapToolA },
+                set: { shortcutSync.pencilDoubleTapToolA = $0; shortcutSync.save() }
+            ))
+            toolPicker("ツール2", selection: Binding(
+                get: { shortcutSync.pencilDoubleTapToolB },
+                set: { shortcutSync.pencilDoubleTapToolB = $0; shortcutSync.save() }
+            ))
+        } header: {
+            Text("Pencilダブルタップ")
+        } footer: {
+            Text("Apple Pencilを2回タップするたびに、指定した2つのツールを交互に切り替えます。")
+        }
+    }
+
+    private func toolPicker(_ title: LocalizedStringKey, selection: Binding<String>) -> some View {
+        Picker(title, selection: selection) {
+            ForEach(MenuCommandCatalog.tools) { tool in
+                Label(LocalizedStringKey(tool.title), systemImage: tool.symbol).tag(tool.id)
+            }
         }
     }
 

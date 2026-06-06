@@ -44,6 +44,12 @@ struct ShortcutPanelView: View {
                     }
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .figbitPencilDoubleTap)) { _ in
+                // ダブルタップ：設定した2ツールを交互に切り替える。
+                if let item = shortcutSync.nextPencilDoubleTapTool() {
+                    tabManager.activeTab?.webView.send(shortcut: item)
+                }
+            }
         }
     }
 
