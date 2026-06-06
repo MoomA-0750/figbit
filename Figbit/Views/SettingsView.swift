@@ -102,7 +102,8 @@ struct SettingsView: View {
                 get: { shortcutSync.pageZoom },
                 // 倍率は ZoomingContainerView が shortcutSync.pageZoom を監視して
                 // updateUIView 経由で反映するため、ここでは値の保存だけ行う。
-                set: { shortcutSync.setPageZoom($0) }
+                // 数値表示をフェード＋スライドさせるため withAnimation で更新する。
+                set: { value in withAnimation(.snappy) { shortcutSync.setPageZoom(value) } }
             ), in: ShortcutSyncManager.zoomRange, step: 0.1) {
                 HStack {
                     Text("倍率")
@@ -110,6 +111,7 @@ struct SettingsView: View {
                     Text("\(Int((shortcutSync.pageZoom * 100).rounded()))%")
                         .foregroundStyle(.secondary)
                         .fontDesign(.monospaced)
+                        .contentTransition(.numericText(value: shortcutSync.pageZoom * 100))
                 }
             }
         } header: {
